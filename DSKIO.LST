@@ -1,0 +1,387 @@
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+
+                                                                      Page   1
+
+
+    1                           	global	small_model
+    2                           ;stdlib.h: 122: extern int atexit(void (*)(void)
+                                );
+    3                           ;stdlib.h: 126: extern void qsort(void *, size_t
+                                , size_t, int (*)(const void *, const void *));
+    4                           ;stdlib.h: 127: extern void * bsearch(const void
+                                 *, void *, size_t, size_t, int(*)(const void *,
+                                 const void *));
+    5                           	global	_loadvramdata
+    6                           	signat	_loadvramdata,4152
+    7   0000'                   	psect	text,class=CODE
+    8                           	global	_fopen
+    9                           	signat	_fopen,8250
+   10                           	global	_scr
+   11                           	signat	_scr,4152
+   12                           	global	_printf
+   13                           	signat	_printf,26
+   14                           	global	_exit
+   15                           	signat	_exit,4152
+   16                           	global	_fread
+   17                           	signat	_fread,16442
+   18                           	global	_otir98h
+   19                           	signat	_otir98h,8248
+   20                           	global	_fclose
+   21                           	signat	_fclose,4154
+   22                           	global	push_long
+   23                           	global	arelop
+   24                           	global	asalsub
+   25                           	global	arelop
+   26   0000'                   _loadvramdata:
+   27   0000' DD E5             	push	ix
+   28   0002' DD 21 0000        	ld	ix,0
+   29   0006' DD 39             	add	ix,sp
+   30   0008' C5                	push	bc
+   31   0009' C5                	push	bc
+   32   000A' C5                	push	bc
+   33   000B' C5                	push	bc
+   34   000C' FD E5             	push	iy
+   35                           ;_namefile stored from de
+   36   000E' DD 73 FE          	ld	(ix+-2),e
+   37   0011' DD 72 FF          	ld	(ix+-1),d
+   38                           ;dskio.c: 10: struct _iobuf * pFile;
+   39                           ; _pFile allocated to iy
+   40   0014' 01 0016'          	ld	bc,u19
+   41   0017' CD 0000*          	call	_fopen
+   42   001A' E5                	push	hl
+   43   001B' FD E1             	pop	iy
+   44                           ;dskio.c: 15: if (pFile==((void *)0)) {
+   45   001D' 7D                	ld	a,l
+   46   001E' B4                	or	h
+   47   001F' 20 1E             	jp	nz,l10
+   48                           ;dskio.c: 16: scr(0);
+   49   0021' 1E 00             	ld	e,0
+   50   0023' CD 0000*          	call	_scr
+   51                           ;dskio.c: 17: printf ("Error opening file %s",na
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+
+                                                                      Page   2
+
+
+                                mefile);
+   52   0026' DD 6E FE          	ld	l,(ix+-2)
+   53   0029' DD 66 FF          	ld	h,(ix+-1)
+   54   002C' E5                	push	hl
+   55   002D' 21 0000'          	ld	hl,u29
+   56   0030' E5                	push	hl
+   57   0031' CD 0000*          	call	_printf
+   58   0034' C1                	pop	bc
+   59   0035' C1                	pop	bc
+   60                           ;dskio.c: 18: exit(1);
+   61   0036' 11 0001           	ld	de,01h
+   62   0039' CD 0000*          	call	_exit
+   63                           ;dskio.c: 19: }
+   64   003C' C3 00F1'          	jp	l9
+   65   003F'                   l10:
+   66                           ;dskio.c: 21: long m;
+   67   003F' FD E5             	push	iy
+   68   0041' 21 0007           	ld	hl,07h
+   69   0044' E5                	push	hl
+   70   0045' 01 0001           	ld	bc,01h
+   71   0048' 11 0000'          	ld	de,F381
+   72   004B' CD 0000*          	call	_fread
+   73                           ;dskio.c: 27: m = (buffer[3]+buffer[4]*256)-(buf
+                                fer[1]+buffer[2]*256)+1;
+   74   004E' 3A 0002'          	ld	a,(F381+02h)
+   75   0051' 6F                	ld	l,a
+   76   0052' 55                	ld	d,l
+   77   0053' 1E 00             	ld	e,0
+   78   0055' 3A 0004'          	ld	a,(F381+04h)
+   79   0058' 47                	ld	b,a
+   80   0059' 3A 0003'          	ld	a,(F381+03h)
+   81   005C' 60                	ld	h,b
+   82   005D' 6F                	ld	l,a
+   83   005E' 3A 0001'          	ld	a,(F381+01h)
+   84   0061' 4F                	ld	c,a
+   85   0062' 43                	ld	b,e
+   86   0063' B7                	or	a
+   87   0064' ED 42             	sbc	hl,bc
+   88   0066' B7                	or	a
+   89   0067' ED 52             	sbc	hl,de
+   90   0069' EB                	ex	de,hl
+   91   006A' 13                	inc	de
+   92   006B' 7A                	ld	a,d
+   93   006C' 17                	rla
+   94   006D' 9F                	sbc	a,a
+   95   006E' 6F                	ld	l,a
+   96   006F' 67                	ld	h,a
+   97   0070' DD 73 FA          	ld	(ix+-6),e
+   98   0073' DD 72 FB          	ld	(ix+-5),d
+   99   0076' DD 75 FC          	ld	(ix+-4),l
+  100   0079' DD 74 FD          	ld	(ix+-3),h
+  101   007C'                   l14:
+  102                           ;dskio.c: 35: do {
+  103                           ;dskio.c: 36: unsigned char n,lenread = (((128) 
+                                < (m)) ? (128) : (m));
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+
+                                                                      Page   3
+
+
+  104   007C' 21 FFFA           	ld	hl,-6
+  105   007F' CD 0000*          	call	push_long
+  106   0082' 11 0080           	ld	de,080h
+  107   0085' 21 0000           	ld	hl,0
+  108   0088' CD 0000*          	call	arelop
+  109   008B' FA 00B9'          	jp	m,u23
+  110   008E' DD 7E FA          	ld	a,(ix+-6)
+  111   0091'                   u24:
+  112   0091' DD 77 F9          	ld	(ix+-7),a
+  113                           ;dskio.c: 37: n = fread(buffer,1,lenread,pFile);
+  114   0094' FD E5             	push	iy
+  115   0096' 6F                	ld	l,a
+  116   0097' 26 00             	ld	h,0
+  117   0099' E5                	push	hl
+  118   009A' 01 0001           	ld	bc,01h
+  119   009D' 11 0000'          	ld	de,F381
+  120   00A0' CD 0000*          	call	_fread
+  121   00A3' DD 75 F8          	ld	(ix+-8),l
+  122                           ;dskio.c: 38: otir98h(buffer,n);
+  123   00A6' 4D                	ld	c,l
+  124   00A7' 06 00             	ld	b,0
+  125   00A9' 11 0000'          	ld	de,F381
+  126   00AC' CD 0000*          	call	_otir98h
+  127                           ;dskio.c: 39: if (n<lenread)
+  128   00AF' DD 7E F8          	ld	a,(ix+-8)
+  129   00B2' DD BE F9          	cp	(ix+-7)
+  130   00B5' 30 06             	jp	nc,l15
+  131                           ;dskio.c: 40: break;
+  132   00B7' 18 32             	jp	l13
+  133   00B9'                   u23:
+  134   00B9' 3E 80             	ld	a,-128
+  135   00BB' 18 D4             	jp	u24
+  136   00BD'                   l15:
+  137                           ;dskio.c: 41: m -= n;
+  138   00BD' DD 7E F8          	ld	a,(ix+-8)
+  139   00C0' 5F                	ld	e,a
+  140   00C1' 21 0000           	ld	hl,0
+  141   00C4' 54                	ld	d,h
+  142   00C5' E5                	push	hl
+  143   00C6' D5                	push	de
+  144   00C7' DD E5             	push	ix
+  145   00C9' D1                	pop	de
+  146   00CA' 21 FFFA           	ld	hl,-6
+  147   00CD' 19                	add	hl,de
+  148   00CE' CD 0000*          	call	asalsub
+  149                           ;dskio.c: 42: }
+  150   00D1' 21 0000           	ld	hl,0
+  151   00D4' E5                	push	hl
+  152   00D5' 21 0001           	ld	hl,01h
+  153   00D8' E5                	push	hl
+  154   00D9' DD 5E FA          	ld	e,(ix+-6)
+  155   00DC' DD 56 FB          	ld	d,(ix+-5)
+  156   00DF' DD 6E FC          	ld	l,(ix+-4)
+  157   00E2' DD 66 FD          	ld	h,(ix+-3)
+  158   00E5' CD 0000*          	call	arelop
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+
+                                                                      Page   4
+
+
+  159   00E8' F2 007C'          	jp	p,l14
+  160   00EB'                   l13:
+  161                           ;dskio.c: 45: fclose (pFile);
+  162   00EB' FD E5             	push	iy
+  163   00ED' D1                	pop	de
+  164   00EE' CD 0000*          	call	_fclose
+  165                           ;dskio.c: 48: }
+  166   00F1'                   l9:
+  167   00F1' FD E1             	pop	iy
+  168   00F3' DD F9             	ld	sp,ix
+  169   00F5' DD E1             	pop	ix
+  170   00F7' C9                	ret	
+  171                           	global	_loadvrampalette
+  172                           	signat	_loadvrampalette,4152
+  173                           	global	_fseek
+  174                           	signat	_fseek,12346
+  175                           	global	_fgetc
+  176                           	signat	_fgetc,4154
+  177                           ;dskio.c: 60: void loadvrampalette(char namefile
+                                []) {
+  178   00F8'                   _loadvrampalette:
+  179   00F8' DD E5             	push	ix
+  180   00FA' DD 21 0000        	ld	ix,0
+  181   00FE' DD 39             	add	ix,sp
+  182   0100' C5                	push	bc
+  183   0101' C5                	push	bc
+  184   0102' FD E5             	push	iy
+  185                           ;_namefile stored from de
+  186   0104' DD 73 FE          	ld	(ix+-2),e
+  187   0107' DD 72 FF          	ld	(ix+-1),d
+  188                           ;dskio.c: 62: struct _iobuf * pFile;
+  189                           ; _pFile allocated to iy
+  190   010A' 01 0016'          	ld	bc,u39
+  191   010D' CD 0000*          	call	_fopen
+  192   0110' E5                	push	hl
+  193   0111' FD E1             	pop	iy
+  194                           ;dskio.c: 65: if (pFile==((void *)0)) {
+  195   0113' 7D                	ld	a,l
+  196   0114' B4                	or	h
+  197   0115' 20 1D             	jp	nz,l17
+  198                           ;dskio.c: 66: scr(0);
+  199   0117' 1E 00             	ld	e,0
+  200   0119' CD 0000*          	call	_scr
+  201                           ;dskio.c: 67: printf ("Error opening file %s",na
+                                mefile);
+  202   011C' DD 6E FE          	ld	l,(ix+-2)
+  203   011F' DD 66 FF          	ld	h,(ix+-1)
+  204   0122' E5                	push	hl
+  205   0123' 21 0000'          	ld	hl,u49
+  206   0126' E5                	push	hl
+  207   0127' CD 0000*          	call	_printf
+  208   012A' C1                	pop	bc
+  209   012B' C1                	pop	bc
+  210                           ;dskio.c: 68: exit(1);
+  211   012C' 11 0001           	ld	de,01h
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+
+                                                                      Page   5
+
+
+  212   012F' CD 0000*          	call	_exit
+  213                           ;dskio.c: 69: }
+  214   0132' 18 5C             	jp	l16
+  215   0134'                   l17:
+  216                           ;dskio.c: 71: unsigned char i,j;
+   73   0134' F3                di ;#
+   74   0135' 3A FFE7           	ld	a,(-25)
+   75   0138' F6 20             	or	020h
+   76   013A' D3 99             	out	(099h),a
+   77   013C' 3E 88             	ld	a,-120
+   78   013E' D3 99             	out	(099h),a
+   73   0140' FB                ei ;#
+   74                           ;dskio.c: 74: {asm("di");(*(port unsigned char *
+                                )(0x99) = ((0)));(*(port unsigned char *)(0x99) 
+                                = (0x80|(7)));asm("ei");};
+   75   0141' F3                di ;#
+   76   0142' AF                	xor	a
+   77   0143' D3 99             	out	(099h),a
+   78   0145' 3E 87             	ld	a,-121
+   79   0147' D3 99             	out	(099h),a
+   74   0149' FB                ei ;#
+   75                           ;dskio.c: 75: {asm("di");(*(port unsigned char *
+                                )(0x99) = ((0)));(*(port unsigned char *)(0x99) 
+                                = (0x80|(16)));asm("ei");};
+   76   014A' F3                di ;#
+   77   014B' AF                	xor	a
+   78   014C' D3 99             	out	(099h),a
+   79   014E' 3E 90             	ld	a,-112
+   80   0150' D3 99             	out	(099h),a
+   75   0152' FB                ei ;#
+   76                           ;dskio.c: 78: fseek (pFile , 7 , 0);
+   77   0153' 21 0000           	ld	hl,0
+   78   0156' E5                	push	hl
+   79   0157' E5                	push	hl
+   80   0158' 21 0007           	ld	hl,07h
+   81   015B' E5                	push	hl
+   82   015C' FD E5             	push	iy
+   83   015E' D1                	pop	de
+   84   015F' CD 0000*          	call	_fseek
+   85                           ;dskio.c: 80: for (i=0;i<16;i++) {
+   86   0162' DD 36 FD 00       	ld	(ix+-3),0
+   87                           ;dskio.c: 81: j = fgetc (pFile);
+   88   0166' FD E5             	push	iy
+   89   0168' D1                	pop	de
+   90   0169'                   L1:
+   91   0169' CD 0000*          	call	_fgetc
+   92   016C' DD 75 FC          	ld	(ix+-4),l
+   93                           ;dskio.c: 82: (*(port unsigned char *)(0x9A) = (
+                                j));
+   94   016F' 7D                	ld	a,l
+   95   0170' D3 9A             	out	(09Ah),a
+   96                           ;dskio.c: 83: j = fgetc (pFile);
+   97   0172' FD E5             	push	iy
+   98   0174' D1                	pop	de
+   99   0175' CD 0000*          	call	_fgetc
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+
+                                                                      Page   6
+
+
+  100   0178' DD 75 FC          	ld	(ix+-4),l
+  101                           ;dskio.c: 84: (*(port unsigned char *)(0x9A) = (
+                                j));
+  102   017B' 7D                	ld	a,l
+  103   017C' D3 9A             	out	(09Ah),a
+  104                           ;dskio.c: 85: }
+  105                           ; _i loaded to c
+  106   017E' DD 4E FD          	ld	c,(ix+-3)
+  107   0181' 0C                	inc	c
+  108                           ;_i stored from c
+  109   0182' DD 71 FD          	ld	(ix+-3),c
+  110   0185' 79                	ld	a,c
+  111   0186' FE 10             	cp	010h
+  112                           ;dskio.c: 87: fclose (pFile);
+  113   0188' FD E5             	push	iy
+  114   018A' D1                	pop	de
+  115   018B' 38 DC             	jp	c,L1
+  116                           
+  117   018D' CD 0000*          	call	_fclose
+  118                           ;dskio.c: 88: }
+  119                           ;dskio.c: 89: }
+  120   0190'                   l16:
+  121   0190' FD E1             	pop	iy
+  122   0192' DD F9             	ld	sp,ix
+  123   0194' DD E1             	pop	ix
+  124   0196' C9                	ret	
+  125   0000'                   	psect	strings,class=CODE
+  126   0000'                   u49:
+  127   0000'                   u29:
+  128   0000' 45 72 72 6F       	defb	"Error opening file %s",0
+        0004' 72 20 6F 70       
+        0008' 65 6E 69 6E       
+        000C' 67 20 66 69       
+        0010' 6C 65 20 25       
+        0014' 73 00             
+  129   0016'                   u39:
+  130   0016'                   u19:
+  131   0016' 72 62 00          	defb	114,98,0
+  132   0000'                   	psect	bss,class=DATA
+  133   0000'                   F381:
+  134   0000'                   	defs	128
+  135   0197'                   	psect		text
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+
+                                                                      Page   7
+
+
+
+                      ---------- Symbol Table ----------
+
+           (ABS) 0000#              CODE 0000               CODE 0000   
+            CODE 0000               CODE 0000               CODE 0000   
+            CODE 0000               DATA 0000               DATA 0000   
+            DATA 0000               F381 0000'                L1 0169'  
+           _exit 0000*           _fclose 0000*            _fgetc 0000*  
+          _fopen 0000*            _fread 0000*            _fseek 0000*  
+   _loadvramdata 0000'  _loadvrampalette 00F8'          _otir98h 0000*  
+         _printf 0000*              _scr 0000*            arelop 0000*  
+         asalsub 0000*               bss 0000#               l10 003F'  
+             l13 00EB'               l14 007C'               l15 00BD'  
+             l16 0190'               l17 0134'                l9 00F1'  
+       push_long 0000*       small_model 0000*           strings 0019#  
+            text 0197#               u19 0016'               u23 00B9'  
+             u24 0091'               u29 0000'               u39 0016'  
+             u49 0000'  
+
+7 jump optimizations
+
