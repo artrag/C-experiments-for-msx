@@ -1,6 +1,6 @@
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:53 2016
 
                                                                       Page   1
 
@@ -62,7 +62,7 @@ HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
    47                            ;#
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:53 2016
 
                                                                       Page   2
 
@@ -124,15 +124,15 @@ HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
   102   0095' DD 7E 0C          	ld	a,(ix+12)
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:53 2016
 
                                                                       Page   3
 
 
   103   0098' DD 77 F9          	ld	(ix+-7),a
-  104                           ;vdpio.c: 64: cmdlist.clr = arg;
+  104                           ;vdpio.c: 64: cmdlist.arg = arg;
   105   009B' DD 7E 0E          	ld	a,(ix+14)
-  106   009E' DD 77 F9          	ld	(ix+-7),a
+  106   009E' DD 77 FA          	ld	(ix+-6),a
   107                           ;vdpio.c: 65: cmdlist.cmd = cmd;
   108   00A1' DD 7E 10          	ld	a,(ix+16)
   109   00A4' DD 77 FB          	ld	(ix+-5),a
@@ -154,148 +154,373 @@ HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
   125   00BD' EB                	ex	de,hl
   126   00BE' C5                	push	bc
   127   00BF' C9                	ret	
-  128                           	global	_restorepalette
-  129                           	signat	_restorepalette,24
-  130   00C0'                   _restorepalette:
-  131                           ;vdpio.c: 71: unsigned char i,j;
-   72   00C0' F3                di ;#
-   73   00C1' 3A FFE7           	ld	a,(-25)
-   74   00C4' F6 20             	or	020h
-   75   00C6' D3 99             	out	(099h),a
-   76   00C8' 3E 88             	ld	a,-120
-   77   00CA' D3 99             	out	(099h),a
-   72   00CC' FB                ei ;#
-   73                           ;vdpio.c: 73: {asm("di");(*(port unsigned char *
-                                )(0x99) = ((0)));(*(port unsigned char *)(0x99) 
-                                = (0x80|(7)));asm("ei");};
-   74   00CD' F3                di ;#
-   75   00CE' AF                	xor	a
-   76   00CF' D3 99             	out	(099h),a
-   77   00D1' 3E 87             	ld	a,-121
-   78   00D3' D3 99             	out	(099h),a
-   73   00D5' FB                ei ;#
-   74                           ;vdpio.c: 74: {asm("di");(*(port unsigned char *
-                                )(0x99) = ((0)));(*(port unsigned char *)(0x99) 
-                                = (0x80|(16)));asm("ei");};
-   75   00D6' F3                di ;#
-   76   00D7' AF                	xor	a
-   77   00D8' D3 99             	out	(099h),a
-   78   00DA' 3E 90             	ld	a,-112
-   79   00DC' D3 99             	out	(099h),a
-   74   00DE' FB                ei ;#
-   75                           ;vdpio.c: 76: for (i=0;i<16;i++) {
+  128                           	global	_line
+  129                           	signat	_line,24632
+  130                           	global	wrelop
+  131   00C0'                   _line:
+  132   00C0' DD E5             	push	ix
+  133   00C2' DD 21 0000        	ld	ix,0
+  134   00C6' DD 39             	add	ix,sp
+  135   00C8' C5                	push	bc
+  136   00C9' C5                	push	bc
+  137   00CA' C5                	push	bc
+  138   00CB' 3B                	dec	sp
+  139   00CC' FD E5             	push	iy
+  140                           ;_sy stored from bc
+  141   00CE' DD 71 FB          	ld	(ix+-5),c
+  142   00D1' DD 70 FC          	ld	(ix+-4),b
+  143                           ;_sx stored from de
+  144   00D4' DD 73 FD          	ld	(ix+-3),e
+  145   00D7' DD 72 FE          	ld	(ix+-2),d
+  146                           ;vdpio.c: 71: int nx = dx-sx;
+  147                           ; _nx allocated to iy
+  148   00DA' DD 6E 04          	ld	l,(ix+4)
+  149   00DD' DD 66 05          	ld	h,(ix+5)
+  150   00E0' B7                	or	a
+  151   00E1' ED 52             	sbc	hl,de
+  152   00E3' E5                	push	hl
+  153   00E4' FD E1             	pop	iy
+  154                           ;vdpio.c: 72: int ny = dy-sy;
+  155                           ; _ny allocated to bc
+  156   00E6' 59                	ld	e,c
+  157   00E7' 50                	ld	d,b
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:53 2016
 
                                                                       Page   4
 
 
-   76                           ; _i allocated to b
-   77   00DF' 06 00             	ld	b,0
-   78   00E1'                   l13:
-   79                           ;vdpio.c: 77: j = (*(port unsigned char *)(0x98)
-                                );
-   80                           ; _j allocated to c
-   81   00E1' DB 98             	in	a,(098h)
-   82                           ;vdpio.c: 78: (*(port unsigned char *)(0x9A) = (
-                                j));
-   83   00E3' D3 9A             	out	(09Ah),a
-   84                           ;vdpio.c: 79: j = (*(port unsigned char *)(0x98)
-                                );
-   85   00E5' DB 98             	in	a,(098h)
-   86   00E7' 4F                	ld	c,a
-   87                           ;vdpio.c: 80: (*(port unsigned char *)(0x9A) = (
-                                j));
-   88   00E8' D3 9A             	out	(09Ah),a
-   89                           ;vdpio.c: 81: }
-   90   00EA' 04                	inc	b
-   91   00EB' 78                	ld	a,b
-   92   00EC' FE 10             	cp	010h
-   93   00EE' 38 F1             	jp	c,l13
-   94                           ;vdpio.c: 82: }
-   95   00F0' C9                	ret	
-   96   0000'                   	psect	bss,class=DATA
-   97   F3DF        =           __vdpReg	equ	62431
-   98   00F1'                   	psect		text
-   89                            global _checkkbd ;#
-   90   00F1'                   _checkkbd: ;#
-   91   00F1' DB AA              in a,(0aah) ;#
-   92   00F3' E6 F0              and 011110000B ; upper 4 bits contain info to p
-                                reserve ;#
-   93   00F5' B3                 or e ;#
-   94   00F6' D3 AA              out (0aah),a ;#
-   95   00F8' DB A9              in a,(0a9h) ;#
-   96   00FA' 6F                 ld l,a ;#
-   97   00FB' C9                 ret ;#
-  108                            global _rand8,_srand8 ;#
-  109   00FC'                   _srand8: ;#
-  110   00FC' ED 53 0000'        ld (randSeed),de ;#
-  111   0100' C9                 ret ;#
-  112   0101'                   _rand8: ;#
-  113   0101' 2A 0000'              ld hl,(randSeed) ;#
-  114   0104' 29                    add hl,hl ;#
-  115   0105' 9F                    sbc a,a ;#
-  116   0106' E6 83                 and 0x83 ;#
-  117   0108' AD                    xor l ;#
-  118   0109' 6F                    ld l,a ;#
-  119   010A' 07                    rlca ;#
-  120   010B' 22 0000'              ld (randSeed),hl ;#
-  121   010E' C9                    ret ;#
-  122   0000'                    psect bss,class=DATA ;#
-  123   0000'                   randSeed: ;#
-  124   0000'                    ds 2 ;#
-  125   010F'                    psect text ;#
+  158   00E8' DD 6E 06          	ld	l,(ix+6)
+  159   00EB' DD 66 07          	ld	h,(ix+7)
+  160   00EE' B7                	or	a
+  161   00EF' ED 52             	sbc	hl,de
+  162   00F1' E5                	push	hl
+  163   00F2' C1                	pop	bc
+  164                           ;vdpio.c: 73: unsigned char arg = 0;
+  165   00F3' DD 36 FF 00       	ld	(ix+-1),0
+  166                           ;vdpio.c: 75: if (nx<0) {
+  167   00F7' FD E5             	push	iy
+  168   00F9' E1                	pop	hl
+  169   00FA' CB 7C             	bit	07h,h
+  170   00FC' 28 10             	jp	z,l13
+  171                           ;vdpio.c: 76: nx = -nx;
+  172   00FE' FD E5             	push	iy
+  173   0100' D1                	pop	de
+  174   0101' 21 0000           	ld	hl,0
+  175   0104' B7                	or	a
+  176   0105' ED 52             	sbc	hl,de
+  177   0107' E5                	push	hl
+  178   0108' FD E1             	pop	iy
+  179                           ;vdpio.c: 77: arg |= 4;
+  180   010A' DD CB FF D6       	set	02h,(ix+-1)
+  181   010E'                   l13:
+  182                           ;vdpio.c: 78: }
+  183   010E' CB 78             	bit	07h,b
+  184   0110' 28 0E             	jp	z,l14
+  185                           ;vdpio.c: 80: ny = -ny;
+  186   0112' 59                	ld	e,c
+  187   0113' 50                	ld	d,b
+  188   0114' 21 0000           	ld	hl,0
+  189   0117' B7                	or	a
+  190   0118' ED 52             	sbc	hl,de
+  191   011A' E5                	push	hl
+  192   011B' C1                	pop	bc
+  193                           ;vdpio.c: 81: arg |= 8;
+  194   011C' DD CB FF DE       	set	03h,(ix+-1)
+  195   0120'                   l14:
+  196                           ;vdpio.c: 82: }
+  197                           ;_ny stored from bc
+  198   0120' DD 71 F9          	ld	(ix+-7),c
+  199   0123' DD 70 FA          	ld	(ix+-6),b
+  200   0126' 59                	ld	e,c
+  201   0127' 50                	ld	d,b
+  202   0128' FD E5             	push	iy
+  203   012A' E1                	pop	hl
+  204   012B' CD 0000*          	call	wrelop
+  205                           ;vdpio.c: 85: vdp_cmd(0,0,sx,sy,nx,ny,clr, arg,0
+                                x70+lop);
+  206   012E' DD 7E 0A          	ld	a,(ix+10)
+  207   0131' FA 014B'          	jp	m,L1
+  208                           
+  209   0134' C6 70             	add	a,070h
+  210   0136' 6F                	ld	l,a
+  211   0137' E5                	push	hl
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:53 2016
 
                                                                       Page   5
 
 
-  134                            global _otir98h ;#
-  135   010F'                   _otir98h: ;#
-  136                            ; de => void* p ;#
-  137                            ; bc => int nbyte ;#
-  138   010F' EB                 ex de,hl ;#
-  139   0110' 78                 ld a,b ;#
-  140   0111' B1                 or c ;#
-  141   0112' C8                 ret z ;#
-  142   0113' 50                 ld d,b ;#
-  143   0114' 41                 ld b,c ;#
-  144   0115' 14                 inc d ;#
-  145   0116' 0E 98              ld c,098h ;#
-  146   0118'                   _l17: ;#
-  147   0118' ED A3              outi ;#
-  148   011A' 20 FC              jp nz,_l17 ;#
-  149   011C' 15                 dec d ;#
-  150   011D' 20 F9              jp nz,_l17 ;#
-  151   011F' C9                 ret ;#
-  152                            ;#
-  153                             global _otir9Bh ;#
-  154   0120'                   _otir9Bh: ;#
-  155                            ; de => void* p ;#
-  156                            ; bc => int nbyte ;#
-  157   0120' EB                 ex de,hl ;#
-  158   0121' 78                 ld a,b ;#
-  159   0122' B1                 or c ;#
-  160   0123' C8                 ret z ;#
-  161   0124' 50                 ld d,b ;#
-  162   0125' 41                 ld b,c ;#
-  163   0126' 14                 inc d ;#
-  164   0127' 0E 9B              ld c,09Bh ;#
-  165   0129'                   1: ;#
-  166   0129' ED A3              outi ;#
-  167   012B' C2 0001            jp nz,1B ;#
-  168   012E' 15                 dec d ;#
-  169   012F' C2 0001            jp nz,1B ;#
-  170   0132' C9                 ret ;#
-  171                            ;#
+  212   0138' DD 6E FF          	ld	l,(ix+-1)
+  213   013B' E5                	push	hl
+  214   013C' DD 6E 08          	ld	l,(ix+8)
+  215   013F' E5                	push	hl
+  216   0140' DD 6E F9          	ld	l,(ix+-7)
+  217   0143' DD 66 FA          	ld	h,(ix+-6)
+  218   0146' E5                	push	hl
+  219   0147' FD E5             	push	iy
+  220                           ;vdpio.c: 86: }
+  221   0149' 18 18             	jp	L2
+  222                           
+  223                           ;vdpio.c: 88: vdp_cmd(0,0,sx,sy,ny,nx,clr, arg |
+                                 1,0x70+lop);
+  224   014B'                   L1:
+  225   014B' C6 70             	add	a,070h
+  226   014D' 6F                	ld	l,a
+  227   014E' E5                	push	hl
+  228   014F' DD 7E FF          	ld	a,(ix+-1)
+  229   0152' F6 01             	or	01h
+  230   0154' 6F                	ld	l,a
+  231   0155' E5                	push	hl
+  232   0156' DD 6E 08          	ld	l,(ix+8)
+  233   0159' E5                	push	hl
+  234   015A' FD E5             	push	iy
+  235   015C' DD 6E F9          	ld	l,(ix+-7)
+  236   015F' DD 66 FA          	ld	h,(ix+-6)
+  237   0162' E5                	push	hl
+  238   0163'                   L2:
+  239   0163' DD 6E FB          	ld	l,(ix+-5)
+  240   0166' DD 66 FC          	ld	h,(ix+-4)
+  241   0169' E5                	push	hl
+  242   016A' DD 6E FD          	ld	l,(ix+-3)
+  243   016D' DD 66 FE          	ld	h,(ix+-2)
+  244   0170' E5                	push	hl
+  245   0171' 01 0000           	ld	bc,0
+  246   0174' 59                	ld	e,c
+  247   0175' 50                	ld	d,b
+  248   0176' CD 003C'          	call	_vdp_cmd
+  249                           ;vdpio.c: 89: }
+  250                           ;vdpio.c: 90: }
+  251   0179' FD E1             	pop	iy
+  252   017B' DD F9             	ld	sp,ix
+  253   017D' DD E1             	pop	ix
+  254   017F' E1                	pop	hl
+  255   0180' F1                	pop	af
+  256   0181' F1                	pop	af
+  257   0182' F1                	pop	af
+  258   0183' F1                	pop	af
+  259   0184' E9                	jp	(hl)
+  260                           	global	_restorepalette
+  261                           	signat	_restorepalette,24
+  262                           ;vdpio.c: 92: void restorepalette() {
+  263   0185'                   _restorepalette:
+  264                           ;vdpio.c: 93: unsigned char i,j;
+   94   0185' F3                di ;#
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:53 2016
 
                                                                       Page   6
+
+
+   95   0186' 3A FFE7           	ld	a,(-25)
+   96   0189' F6 20             	or	020h
+   97   018B' D3 99             	out	(099h),a
+   98   018D' 3E 88             	ld	a,-120
+   99   018F' D3 99             	out	(099h),a
+   94   0191' FB                ei ;#
+   95                           ;vdpio.c: 95: {asm("di");(*(port unsigned char *
+                                )(0x99) = ((0)));(*(port unsigned char *)(0x99) 
+                                = (0x80|(7)));asm("ei");};
+   96   0192' F3                di ;#
+   97   0193' AF                	xor	a
+   98   0194' D3 99             	out	(099h),a
+   99   0196' 3E 87             	ld	a,-121
+  100   0198' D3 99             	out	(099h),a
+   95   019A' FB                ei ;#
+   96                           ;vdpio.c: 96: {asm("di");(*(port unsigned char *
+                                )(0x99) = ((0)));(*(port unsigned char *)(0x99) 
+                                = (0x80|(16)));asm("ei");};
+   97   019B' F3                di ;#
+   98   019C' AF                	xor	a
+   99   019D' D3 99             	out	(099h),a
+  100   019F' 3E 90             	ld	a,-112
+  101   01A1' D3 99             	out	(099h),a
+   96   01A3' FB                ei ;#
+   97                           ;vdpio.c: 98: for (i=0;i<16;i++) {
+   98                           ; _i allocated to b
+   99   01A4' 06 00             	ld	b,0
+  100   01A6'                   l18:
+  101                           ;vdpio.c: 99: j = (*(port unsigned char *)(0x98)
+                                );
+  102                           ; _j allocated to c
+  103   01A6' DB 98             	in	a,(098h)
+  104                           ;vdpio.c: 100: (*(port unsigned char *)(0x9A) = 
+                                (j));
+  105   01A8' D3 9A             	out	(09Ah),a
+  106                           ;vdpio.c: 101: j = (*(port unsigned char *)(0x98
+                                ));
+  107   01AA' DB 98             	in	a,(098h)
+  108   01AC' 4F                	ld	c,a
+  109                           ;vdpio.c: 102: (*(port unsigned char *)(0x9A) = 
+                                (j));
+  110   01AD' D3 9A             	out	(09Ah),a
+  111                           ;vdpio.c: 103: }
+  112   01AF' 04                	inc	b
+  113   01B0' 78                	ld	a,b
+  114   01B1' FE 10             	cp	010h
+  115   01B3' 38 F1             	jp	c,l18
+  116                           ;vdpio.c: 104: }
+  117   01B5' C9                	ret	
+  118   0000'                   	psect	bss,class=DATA
+  119   F3DF        =           __vdpReg	equ	62431
+  120   01B6'                   	psect		text
+  119                            global _checkkbd ;#
+  120   01B6'                   _checkkbd: ;#
+  121   01B6' DB AA              in a,(0aah) ;#
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:53 2016
+
+                                                                      Page   7
+
+
+  122   01B8' E6 F0              and 011110000B ; upper 4 bits contain info to p
+                                reserve ;#
+  123   01BA' B3                 or e ;#
+  124   01BB' D3 AA              out (0aah),a ;#
+  125   01BD' DB A9              in a,(0a9h) ;#
+  126   01BF' 6F                 ld l,a ;#
+  127   01C0' C9                 ret ;#
+  128                            ;#
+  129                            ;#
+  130                             ; PSG I/O port A (r#14) – read-only ;#
+  131                           ; Bit Description Comment ;#
+  132                           ; 0 Input joystick pin 1 (up) ;#
+  133                           ; 1 Input joystick pin 2 (down) ;#
+  134                           ; 2 Input joystick pin 3 (left) ;#
+  135                           ; 3 Input joystick pin 4 (right) ;#
+  136                           ; 4 Input joystick pin 6 (trigger A) ;#
+  137                           ; 5 Input joystick pin 7 (trigger B) ;#
+  138                           ; 6 Japanese keyboard layout bit (1=JIS, 0=ANSI)
+                                 ;#
+  139                           ; 7 Cassette input signal ;#
+  140                            ;#
+  141                            global _checkjoy ;#
+  142   01C1'                   _checkjoy: ;#
+  143   01C1' 3E 0F              ld a,0x0f ;#
+  144   01C3' D3 A0              out (0xa0),a ;#
+  145   01C5' 3E 8F              ld a,0x8F ;#
+  146   01C7' D3 A1              out (0xa1),a ; select port A ;#
+  147   01C9' 3E 0E              ld a,0x0e ;#
+  148   01CB' D3 A0              out (0xa0),a ;#
+  149   01CD' DB A2              in a,(0xa2) ;#
+  150                            ;#
+  151   01CF' 4F                 ld c,a ;#
+  152                            ;#
+  153   01D0' 1E 08               ld e,8 ;#
+  154   01D2' CD 01B6'              call _checkkbd ;#
+  155   01D5' CB 47              bit 0,a ; space ;#
+  156   01D7' 20 02              jr nz,1f ;#
+  157   01D9' CB A1              res 4,c ; (trigger A) ;#
+  158   01DB'                   1: ;#
+  159   01DB' CB 7F              bit 7,a ; RIGHT ;#
+  160   01DD' 20 02              jr nz,1f ;#
+  161   01DF' CB 99              res 3,c ; (right joy) ;#
+  162   01E1'                   1: ;#
+  163   01E1' CB 77              bit 6,a ; DOWN ;#
+  164   01E3' 20 02              jr nz,1f ;#
+  165   01E5' CB 89              res 1,c ; (down joy) ;#
+  166   01E7'                   1: ;#
+  167   01E7' CB 6F              bit 5,a ; UP ;#
+  168   01E9' 20 02              jr nz,1f ;#
+  169   01EB' CB 81              res 0,c ; (up joy) ;#
+  170   01ED'                   1: ;#
+  171   01ED' CB 67              bit 4,a ; LEFT ;#
+  172   01EF' 20 02              jr nz,1f ;#
+  173   01F1' CB 91              res 2,c ; (left joy) ;#
+  174   01F3'                   1: ;#
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:53 2016
+
+                                                                      Page   8
+
+
+  175   01F3' 1E 05              ld e,5 ;#
+  176   01F5' CD 01B6'              call _checkkbd ;#
+  177   01F8' CB 6F              bit 5,a ; X ;#
+  178   01FA' 20 02              jr nz,1f ;#
+  179   01FC' CB A9              res 5,c ; (trigger B) ;#
+  180   01FE'                   1: ;#
+  181   01FE' CB 7F              bit 7,a ; Z ;#
+  182   0200' 20 02              jr nz,1f ;#
+  183   0202' CB A1              res 4,c ; (trigger A) ;#
+  184   0204'                   1: ;#
+  185   0204' 79                 ld a,c ;#
+  186   0205' 2F                 cpl ;#
+  187   0206' 6F                 ld l,a ;#
+  188   0207' C9                 ret ;#
+  198                            global _rand8,_srand8 ;#
+  199   0208'                   _srand8: ;#
+  200   0208' ED 53 0000'        ld (randSeed),de ;#
+  201   020C' C9                 ret ;#
+  202   020D'                   _rand8: ;#
+  203   020D' 2A 0000'              ld hl,(randSeed) ;#
+  204   0210' 29                    add hl,hl ;#
+  205   0211' 9F                    sbc a,a ;#
+  206   0212' E6 83                 and 0x83 ;#
+  207   0214' AD                    xor l ;#
+  208   0215' 6F                    ld l,a ;#
+  209   0216' 07                    rlca ;#
+  210   0217' 22 0000'              ld (randSeed),hl ;#
+  211   021A' C9                    ret ;#
+  212   0000'                    psect bss,class=DATA ;#
+  213   0000'                   randSeed: ;#
+  214   0000'                    ds 2 ;#
+  215   021B'                    psect text ;#
+  224                            global _otir98h ;#
+  225   021B'                   _otir98h: ;#
+  226                            ; de => void* p ;#
+  227                            ; bc => int nbyte ;#
+  228   021B' EB                 ex de,hl ;#
+  229   021C' 78                 ld a,b ;#
+  230   021D' B1                 or c ;#
+  231   021E' C8                 ret z ;#
+  232   021F' 50                 ld d,b ;#
+  233   0220' 41                 ld b,c ;#
+  234   0221' 14                 inc d ;#
+  235   0222' 0E 98              ld c,098h ;#
+  236   0224'                   _l17: ;#
+  237   0224' ED A3              outi ;#
+  238   0226' 20 FC              jp nz,_l17 ;#
+  239   0228' 15                 dec d ;#
+  240   0229' 20 F9              jp nz,_l17 ;#
+  241   022B' C9                 ret ;#
+  242                            ;#
+  243                             global _otir9Bh ;#
+  244   022C'                   _otir9Bh: ;#
+  245                            ; de => void* p ;#
+  246                            ; bc => int nbyte ;#
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:53 2016
+
+                                                                      Page   9
+
+
+  247   022C' EB                 ex de,hl ;#
+  248   022D' 78                 ld a,b ;#
+  249   022E' B1                 or c ;#
+  250   022F' C8                 ret z ;#
+  251   0230' 50                 ld d,b ;#
+  252   0231' 41                 ld b,c ;#
+  253   0232' 14                 inc d ;#
+  254   0233' 0E 9B              ld c,09Bh ;#
+  255   0235'                   1: ;#
+  256   0235' ED A3              outi ;#
+  257   0237' C2 0001            jp nz,1B ;#
+  258   023A' 15                 dec d ;#
+  259   023B' C2 0001            jp nz,1B ;#
+  260   023E' C9                 ret ;#
+  261                            ;#
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:53 2016
+
+                                                                      Page  10
 
 
 
@@ -304,12 +529,15 @@ HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:26 2016
           (ABS) 0000#             CODE 0000              CODE 0000   
            CODE 0000              DATA 0000              DATA 0000   
            DATA 0000              DATA 0000              DATA 0000   
-           DATA 0000         _TextMode 0000'         __vdpReg F3DF   
-      _checkkbd 00F1'             _l17 0118'         _otir98h 010F'  
-       _otir9Bh 0120'           _rand8 0101'  _restorepalette 00C0'  
-           _scr 001B'          _srand8 00FC'         _vdp_cmd 003C'  
-        _vdpcmd 0000*              bss 0000#              l13 00E1'  
-       randSeed 0000'      small_model 0000*             text 0133#  
+           DATA 0000                L1 014B'               L2 0163'  
+      _TextMode 0000'         __vdpReg F3DF         _checkjoy 01C1'  
+      _checkkbd 01B6'             _l17 0224'            _line 00C0'  
+       _otir98h 021B'         _otir9Bh 022C'           _rand8 020D'  
+_restorepalette 0185'             _scr 001B'          _srand8 0208'  
+       _vdp_cmd 003C'          _vdpcmd 0000*              bss 0000#  
+            l13 010E'              l14 0120'              l18 01A6'  
+       randSeed 0000'      small_model 0000*             text 023F#  
+         wrelop 0000*  
 
-3 jump optimizations
+6 jump optimizations
 

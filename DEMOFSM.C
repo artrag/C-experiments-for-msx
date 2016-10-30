@@ -13,50 +13,81 @@
 // Palette                         7680-769F
 // Sprite character patterns       7800-7FFF
 
+uchar ball[] = {	
+				0x07,0x1F,0x3F,0x7F,0x7F,0xFF,0xFF,0xFF,
+				0xFF,0xFF,0xFF,0x7F,0x7F,0x3F,0x1F,0x07,
+				0xE0,0xF8,0xFC,0xFE,0xFE,0xFF,0xFF,0xFF,
+				0xFF,0xFF,0xFF,0xFE,0xFE,0xFC,0xF8,0xE0
+			   };
+
 void sprtinit(void) {
-	uchar i;
+	int i,j;
 	setvdpreg(14,1);
-	setvdpwvram(0x3400);				// eqivalent to 0x7400
-	for (i=16;i>0;i--) outp(0x98,15);	// sprite colors
-	setvdpwvram(0x3800);				// eqivalent to 0x7800
-	for (i=32;i>0;i--) outp(0x98,255);	// sprite definition
-	setvdpwvram(0x3600);				// eqivalent to 0x7600
-	for (i=32;i>0;i--) {
-		outp(0x98,212);	// y
-		outp(0x98,255);	// x
+	setvdpwvram(0x3400);					// eqivalent to 0x7400
+	for (i=0;i<31;i++) {
+		for (j=1;j<16;j+=2) 
+			outp(0x98,j);					// enemy sprite colors
+		for (j=15;j>=0;j-=2) 
+			outp(0x98,j);					// enemy sprite colors
+	}
+	
+	for (i=0;i<16;i+=2) 
+		outp(0x98,i);						// my sprite colors
+	for (i=14;i>=0;i-=2) 
+		outp(0x98,i);	
+	
+	setvdpwvram(0x3800);					// eqivalent to 0x7800
+	for (i=0;i<32;i++) outp(0x98,ball[i]);	// sprite definition
+		
+	setvdpreg(14,1);
+	for (i=0;i<32;i++) {
+		setvdpwvram(0x3600+i*4+2);			// eqivalent to 0x7600+i*4+2
 		outp(0x98,0);	// pattern
-		outp(0x98,-1);	// dummy
 	}
 }
 /////////////////////////////////////
 // dummy put sprite
 void putsprt(uchar n,uchar x,uchar y) {
-	n *= 4;					// Trick: the sat is max 128 bytes
-	setvdpwvram(0x3600+n); 	// eqivalent to 0x7600+4*n
-	outp(0x98,y);			//	y
-	outp(0x98,x);			//	x
+	setvdpwvram(0x3600+4*n); 	// eqivalent to 0x7600+4*n
+	outp(0x98,y);				//	y
+	outp(0x98,x);				//	x
 }
 
 void screenint(void) {
-	uint i;
+	uint n;
 	scr(5);
 	
 	loadvrampalette("bg1.pl5");
 	setpage(0);
+
 	setvdpreg(14,0);
 	setvdpwvram(0);
-	for (i=212*128;i>0;i--) outp(0x98,i);
+	for (n=212*128;n>0;n--) outp(0x98,n);
+	
+	vdp_cmd(0,0,0,0,256,212,0x77, 0,HMMV);
+
+	loadvrambox("test.cpy",64,64);	
+	
+	for (n=0;n<256;n++) {
+		line (127,106,n,  0,n,IMP);
+		line (127,106,n,211,n,IMP);
+	}
+	for (n=0;n<212;n++) {
+		line (127,106,  0,n,n,IMP);
+		line (127,106,255,n,n,IMP);
+	}
+	
 }
 	
 /////////////////////////////////////
 //
-enum state {right,left,uplf,uprg,downlf,downrg};
+enum state {right,left,up,down,idle};
 
 struct enemy {
-	uchar x;
-	uchar y;
+	int x;
+	int y;
 	enum state st;
-	uchar cnt;
+	int cnt;
 };
 
 void fsm(struct enemy *);
@@ -65,53 +96,70 @@ void fsm(struct enemy *);
 // actual main
 //
 
-#define NumEn	32
+#define NumEn	31
 
 struct enemy en[NumEn];
 
+struct enemy myball = {120,98,0,0};	// you can initialize struct at define time
+
+interact(struct enemy * p) {
+	uchar io = checkjoy (); 
+	if (io & 1) {p->y--;}		// up 
+	if (io & 2) {p->y++;}		// down
+	if (io & 4) {p->x--;}		// left
+	if (io & 8) {p->x++;}		// right
+	// if (io & 16) {Trigger A or space or Z}		
+	// if (io & 32) {Trigger B or X}		
+}
+
 int main(void) {
 	
-	struct enemy *p_en = en;
-	
-	uchar n;
+	int n;
 	
 	screenint();
 	
-	sprtinit();
-	
 	srand8(JIFFY);
 
-	p_en = en;
-		
+	sprtinit();
+
 	for (n=0;n<NumEn;n++) {
-		p_en->x = rand8() % 240;
-		p_en->y = rand8() % 160;
-		p_en->st = rand8() % 2;	// states are also integers (right and left are 0 and 1)
-		p_en++;
+		en[n].x = 120;
+		en[n].y = -17;
+		en[n].st = idle;
+		en[n].cnt = (n+1) * 42;
 	}
-	
+
 	while (checkkbd(7)&4) {		// Wait for ESC
 
+		struct enemy *p_en;
+	
 		// do all the updates in RAM
 		// while the raster is plotting the screen
 		
-		p_en = en;
-		
-		for (n=NumEn;n>0;n--) {
-			fsm(p_en);
+		p_en = en;	
+		for (n=0;n<NumEn;n++) {
+			fsm(p_en);			// same as 	fsm(&en[n]);  but faster
 			p_en++;
 		}
+		
+		//	move my ball
+		interact(&myball);		
 		
 		// all the screen I/O has to fit in the VBLANK time
 		// unless we do not use double buffering
 
 		HLT;	// wait for VBLANK
-
-		p_en = en;
 		
+		setvdpreg(14,1);	// make sure putsprite() aims to the right VRAM address
+
+		// plot my ball
+		putsprt(31,myball.x,myball.y);		
+
+		// plot other balls
+		p_en = en;
 		for (n=0;n<NumEn;n++) {
-			putsprt(n,p_en->x,p_en->y);
-			p_en++;
+			putsprt(n,p_en->x,p_en->y);		
+			p_en++;				// same as 	putsprt(n,en[n].x,en[n].y); but faster
 		}
 	}
 	
@@ -125,58 +173,67 @@ int main(void) {
 
 void fsm(struct enemy *en) {
 	switch (en->st) {
-		case right: {
-			if (en->x<240)
-				en->x++; 
-			else {
-				en->st = downlf;
-				en->cnt = 16 + (rand8()&31);
+		case idle: {
+			
+			en->cnt --;
+			
+			if (en->cnt == 0) {
+				en->st = down;
+				en->cnt = 32;
 			}
 			break;
 		}
-		case downlf: {
-			if ((en->y<196) && (en->cnt>0)) {
-				en->y++; 
-				en->cnt--;
+		case down: {
+			
+			en->y++; 
+			en->cnt--;
+			
+			if (en->y>=196) {
+				en->st = up;
 			}
-			else if ((en->y)>=196)
-				en->st = uplf;
-			else 
-				en->st = left;
-			break;
-		}
-		case downrg: {
-			if (((en->y)<196) && (en->cnt>0)) {
-				en->y++; 
-				en->cnt--;
+			else if (en->cnt == 0) {
+				if (en->x < 128) {
+					en->st = right;
+				}
+				else {
+					en->st = left;
+				}
 			}
-			else if (en->y>=196)
-				en->st = uprg;
-			else 
-				en->st = right;
 			break;
 		}
 		case left: {
-			if (en->x>0)
+			
+			if (en->x>0) {
 				en->x--; 
+			}
 			else {
-				en->st = downrg;
-				en->cnt = 16 + (rand8()&31);
+				en->st = down;
+				en->cnt = 32;
 			}
 			break;
 		}
-		case uplf: {
-			if (en->y>0)
-				en->y--; 
-			else 
-				en->st = left;
+		case right: {
+			
+			if (en->x<240) {
+				en->x++; 
+			}
+			else {
+				en->st = down;
+				en->cnt = 32;
+			}
 			break;
 		}
-		case uprg: {
-			if (en->y>0)
+		case up: {
+			
+			if (en->y>-17) {
 				en->y--; 
-			else 
-				en->st = right;
+			}
+			else {
+				en->st = idle;
+				en->cnt = 42;			
+				en->x = 120;			
+				en->y = -17;			
+			}
 			break;
 		}
 	}

@@ -1,6 +1,6 @@
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
 
                                                                       Page   1
 
@@ -13,541 +13,950 @@ HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
     4                           ;stdlib.h: 127: extern void * bsearch(const void
                                  *, void *, size_t, size_t, int(*)(const void *,
                                  const void *));
-    5                           	global	_sprtinit
-    6                           	signat	_sprtinit,24
-    7   0000'                   	psect	text,class=CODE
-    8   0000'                   _sprtinit:
-    9                           ;demofsm.c: 17: unsigned char i;
-   18   0000' F3                di ;#
-   19   0001' 3E 01             	ld	a,01h
-   20   0003' D3 99             	out	(099h),a
-   21   0005' 3E 8E             	ld	a,-114
-   22   0007' D3 99             	out	(099h),a
-   18   0009' FB                ei ;#
-   19                           ;demofsm.c: 19: {asm("di");(*(port unsigned char
-                                 *)(0x99) = ((0x3400)&255));(*(port unsigned cha
-                                r *)(0x99) = (0x40|((0x3400)>>8)));asm("ei");};
-   20   000A' F3                di ;#
-   21   000B' AF                	xor	a
-   22   000C' D3 99             	out	(099h),a
-   23   000E' 3E 74             	ld	a,074h
-   24   0010' D3 99             	out	(099h),a
-   19   0012' FB                ei ;#
-   20                           ;demofsm.c: 20: for (i=16;i>0;i--) (*(port unsig
-                                ned char *)(0x98) = (15));
-   21                           ; _i allocated to c
-   22   0013' 0E 10             	ld	c,010h
-   23   0015'                   l10:
-   24   0015' 3E 0F             	ld	a,0Fh
-   25   0017' D3 98             	out	(098h),a
-   26   0019' 0D                	dec	c
-   27   001A' 79                	ld	a,c
-   28   001B' B7                	or	a
-   29   001C' 20 F7             	jp	nz,l10
-   30                           ;demofsm.c: 21: {asm("di");(*(port unsigned char
-                                 *)(0x99) = ((0x3800)&255));(*(port unsigned cha
-                                r *)(0x99) = (0x40|((0x3800)>>8)));asm("ei");};
-   21   001E' F3                di ;#
-   22   001F' AF                	xor	a
-   23   0020' D3 99             	out	(099h),a
-   24   0022' 3E 78             	ld	a,078h
-   25   0024' D3 99             	out	(099h),a
-   21   0026' FB                ei ;#
-   22                           ;demofsm.c: 22: for (i=32;i>0;i--) (*(port unsig
-                                ned char *)(0x98) = (255));
-   23   0027' 0E 20             	ld	c,020h
-   24   0029'                   l13:
-   25   0029' 3E FF             	ld	a,-1
-   26   002B' D3 98             	out	(098h),a
-   27   002D' 0D                	dec	c
+    5   0000'                   	psect	data,class=DATA
+    6                           	global	_ball
+    7   0000'                   _ball:
+    8   0000' 07                	defb	07h
+    9   0001' 1F                	defb	01Fh
+   10   0002' 3F                	defb	03Fh
+   11   0003' 7F                	defb	07Fh
+   12   0004' 7F                	defb	07Fh
+   13   0005' FF                	defb	-1
+   14   0006' FF                	defb	-1
+   15   0007' FF                	defb	-1
+   16   0008' FF                	defb	-1
+   17   0009' FF                	defb	-1
+   18   000A' FF                	defb	-1
+   19   000B' 7F                	defb	07Fh
+   20   000C' 7F                	defb	07Fh
+   21   000D' 3F                	defb	03Fh
+   22   000E' 1F                	defb	01Fh
+   23   000F' 07                	defb	07h
+   24   0010' E0                	defb	-32
+   25   0011' F8                	defb	-8
+   26   0012' FC                	defb	-4
+   27   0013' FE                	defb	-2
+   28   0014' FE                	defb	-2
+   29   0015' FF                	defb	-1
+   30   0016' FF                	defb	-1
+   31   0017' FF                	defb	-1
+   32   0018' FF                	defb	-1
+   33   0019' FF                	defb	-1
+   34   001A' FF                	defb	-1
+   35   001B' FE                	defb	-2
+   36   001C' FE                	defb	-2
+   37   001D' FC                	defb	-4
+   38   001E' F8                	defb	-8
+   39   001F' E0                	defb	-32
+   40                           	global	_sprtinit
+   41                           	signat	_sprtinit,24
+   42   0000'                   	psect	text,class=CODE
+   43                           	global	_ball
+   44                           	global	wrelopbc
+   45                           	global	wrelop
+   46                           	global	wrelopbc
+   47                           	global	wrelopbc
+   48                           	global	wrelopbc
+   49   0000'                   _sprtinit:
+   50   0000' FD E5             	push	iy
+   51                           ;demofsm.c: 24: int i,j;
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
 
                                                                       Page   2
 
 
-   28   002E' 79                	ld	a,c
-   29   002F' B7                	or	a
-   30   0030' 20 F7             	jp	nz,l13
-   31                           ;demofsm.c: 23: {asm("di");(*(port unsigned char
-                                 *)(0x99) = ((0x3600)&255));(*(port unsigned cha
-                                r *)(0x99) = (0x40|((0x3600)>>8)));asm("ei");};
-   23   0032' F3                di ;#
-   24   0033' AF                	xor	a
-   25   0034' D3 99             	out	(099h),a
-   26   0036' 3E 76             	ld	a,076h
-   27   0038' D3 99             	out	(099h),a
-   23   003A' FB                ei ;#
-   24                           ;demofsm.c: 24: for (i=32;i>0;i--) {
-   25   003B' 0E 20             	ld	c,020h
-   26   003D'                   l16:
-   27                           ;demofsm.c: 25: (*(port unsigned char *)(0x98) =
-                                 (212));
-   28   003D' 3E D4             	ld	a,-44
-   29   003F' D3 98             	out	(098h),a
-   30                           ;demofsm.c: 26: (*(port unsigned char *)(0x98) =
-                                 (255));
-   31   0041' 3E FF             	ld	a,-1
-   32   0043' D3 98             	out	(098h),a
-   33                           ;demofsm.c: 27: (*(port unsigned char *)(0x98) =
-                                 (0));
-   34   0045' AF                	xor	a
-   35   0046' D3 98             	out	(098h),a
-   36                           ;demofsm.c: 28: (*(port unsigned char *)(0x98) =
-                                 (-1));
-   37   0048' 3E FF             	ld	a,-1
-   38   004A' D3 98             	out	(098h),a
-   39                           ;demofsm.c: 29: }
-   40   004C' 0D                	dec	c
-   41   004D' 79                	ld	a,c
-   42   004E' B7                	or	a
-   43   004F' 20 EC             	jp	nz,l16
-   44                           ;demofsm.c: 30: }
-   45   0051' C9                	ret	
-   46                           	global	_putsprt
-   47                           	signat	_putsprt,12344
-   48                           ;demofsm.c: 33: void putsprt(unsigned char n,uns
-                                igned char x,unsigned char y) {
-   49   0052'                   _putsprt:
-   50   0052' DD E5             	push	ix
-   51   0054' DD 21 0000        	ld	ix,0
-   52   0058' DD 39             	add	ix,sp
-   53                           ;demofsm.c: 34: n *= 4;
-   54   005A' 06 03             	ld	b,03h
-   55   005C' 18 02             	jp	u12
-   56   005E'                   u11:
-   57   005E' CB 23             	sll	e
-   58   0060'                   u12:
-   59   0060' 10 FC             	djnz	u11
-   60                           ;demofsm.c: 35: {asm("di");(*(port unsigned char
-                                 *)(0x99) = ((0x3600+n)&255));(*(port unsigned c
+   25   0002' F3                di ;#
+   26   0003' 3E 01             	ld	a,01h
+   27   0005' D3 99             	out	(099h),a
+   28   0007' 3E 8E             	ld	a,-114
+   29   0009' D3 99             	out	(099h),a
+   25   000B' FB                ei ;#
+   26                           ;demofsm.c: 26: {asm("di");(*(port unsigned char
+                                 *)(0x99) = ((0x3400)&255));(*(port unsigned cha
+                                r *)(0x99) = (0x40|((0x3400)>>8)));asm("ei");};
+   27   000C' F3                di ;#
+   28   000D' 3E 00             	ld	a,0
+   29   000F' D3 99             	out	(099h),a
+   30   0011' 3E 74             	ld	a,074h
+   31   0013' D3 99             	out	(099h),a
+   26   0015' FB                ei ;#
+   27                           ;demofsm.c: 27: for (i=0;i<31;i++) {
+   28                           ; _i allocated to iy
+   29   0016' FD 21 0000        	ld	iy,0
+   30   001A'                   l10:
+   31                           ;demofsm.c: 28: for (j=1;j<16;j+=2)
+   32                           ; _j allocated to bc
+   33   001A' 01 0001           	ld	bc,01h
+   34   001D'                   l13:
+   35                           ;demofsm.c: 29: (*(port unsigned char *)(0x98) =
+                                 (j));
+   36   001D' 79                	ld	a,c
+   37   001E' D3 98             	out	(098h),a
+   38   0020' 03                	inc	bc
+   39   0021' 03                	inc	bc
+   40   0022' 21 0010           	ld	hl,010h
+   41   0025' CD 0000*          	call	wrelopbc
+   42   0028' FA 001D'          	jp	m,l13
+   43                           ;demofsm.c: 30: for (j=15;j>=0;j-=2)
+   44   002B' 01 000F           	ld	bc,0Fh
+   45   002E'                   l16:
+   46                           ;demofsm.c: 31: (*(port unsigned char *)(0x98) =
+                                 (j));
+   47   002E' 79                	ld	a,c
+   48   002F' D3 98             	out	(098h),a
+   49   0031' 0B                	dec	bc
+   50   0032' 0B                	dec	bc
+   51   0033' CB 78             	bit	07h,b
+   52   0035' 28 F7             	jp	z,l16
+   53                           ;demofsm.c: 32: }
+   54   0037' FD 23             	inc	iy
+   55   0039' 11 001F           	ld	de,01Fh
+   56   003C' FD E5             	push	iy
+   57   003E' E1                	pop	hl
+   58   003F' CD 0000*          	call	wrelop
+   59   0042' FA 001A'          	jp	m,l10
+   60                           ;demofsm.c: 34: for (i=0;i<16;i+=2)
+   61                           ; _i allocated to bc
+   62   0045' 01 0000           	ld	bc,0
+   63   0048'                   l19:
+   64                           ;demofsm.c: 35: (*(port unsigned char *)(0x98) =
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
 
                                                                       Page   3
 
 
-                                har *)(0x99) = (0x40|((0x3600+n)>>8)));asm("ei")
-                                ;};
-   35   0062' F3                di ;#
-   36   0063' 7B                	ld	a,e
-   37   0064' D3 99             	out	(099h),a
-   38   0066' 3E 36             	ld	a,036h
-   39   0068' F6 40             	or	040h
-   40   006A' D3 99             	out	(099h),a
-   35   006C' FB                ei ;#
-   36                           ;demofsm.c: 36: (*(port unsigned char *)(0x98) =
-                                 (y));
-   37   006D' DD 7E 04          	ld	a,(ix+4)
-   38   0070' D3 98             	out	(098h),a
-   39                           ;demofsm.c: 37: (*(port unsigned char *)(0x98) =
-                                 (x));
-   40   0072' 79                	ld	a,c
-   41   0073' D3 98             	out	(098h),a
-   42                           ;demofsm.c: 38: }
-   43   0075' DD E1             	pop	ix
-   44   0077' E1                	pop	hl
-   45   0078' F1                	pop	af
-   46   0079' E9                	jp	(hl)
-   47                           	global	_screenint
-   48                           	signat	_screenint,24
-   49                           	global	_scr
-   50                           	signat	_scr,4152
-   51                           	global	_loadvrampalette
-   52                           	signat	_loadvrampalette,4152
-   53                           	global	_setpage
-   54                           	signat	_setpage,4152
-   55                           ;demofsm.c: 40: void screenint(void) {
-   56   007A'                   _screenint:
-   57                           ;demofsm.c: 41: uint i;
-   58   007A' 1E 05             	ld	e,05h
-   59   007C' CD 0000*          	call	_scr
-   60                           ;demofsm.c: 44: loadvrampalette("bg1.pl5");
-   61   007F' 11 0000'          	ld	de,u19
-   62   0082' CD 0000*          	call	_loadvrampalette
-   63                           ;demofsm.c: 45: setpage(0);
-   64   0085' 1E 00             	ld	e,0
-   65   0087' CD 0000*          	call	_setpage
-   66                           ;demofsm.c: 46: {asm("di");(*(port unsigned char
-                                 *)(0x99) = ((0)));(*(port unsigned char *)(0x99
+                                 (i));
+   65   0048' 79                	ld	a,c
+   66   0049' D3 98             	out	(098h),a
+   67   004B' 03                	inc	bc
+   68   004C' 03                	inc	bc
+   69   004D' 21 0010           	ld	hl,010h
+   70   0050' CD 0000*          	call	wrelopbc
+   71   0053' FA 0048'          	jp	m,l19
+   72                           ;demofsm.c: 36: for (i=14;i>=0;i-=2)
+   73   0056' 01 000E           	ld	bc,0Eh
+   74   0059'                   l22:
+   75                           ;demofsm.c: 37: (*(port unsigned char *)(0x98) =
+                                 (i));
+   76   0059' 79                	ld	a,c
+   77   005A' D3 98             	out	(098h),a
+   78   005C' 0B                	dec	bc
+   79   005D' 0B                	dec	bc
+   80   005E' CB 78             	bit	07h,b
+   81   0060' 28 F7             	jp	z,l22
+   82                           ;demofsm.c: 39: {asm("di");(*(port unsigned char
+                                 *)(0x99) = ((0x3800)&255));(*(port unsigned cha
+                                r *)(0x99) = (0x40|((0x3800)>>8)));asm("ei");};
+   39   0062' F3                di ;#
+   40   0063' AF                	xor	a
+   41   0064' D3 99             	out	(099h),a
+   42   0066' 3E 78             	ld	a,078h
+   43   0068' D3 99             	out	(099h),a
+   39   006A' FB                ei ;#
+   40                           ;demofsm.c: 40: for (i=0;i<32;i++) (*(port unsig
+                                ned char *)(0x98) = (ball[i]));
+   41   006B' 01 0000           	ld	bc,0
+   42   006E'                   l25:
+   43   006E' 21 0000'          	ld	hl,_ball
+   44   0071' 09                	add	hl,bc
+   45   0072' 7E                	ld	a,(hl)
+   46   0073' D3 98             	out	(098h),a
+   47   0075' 03                	inc	bc
+   48   0076' 21 0020           	ld	hl,020h
+   49   0079' CD 0000*          	call	wrelopbc
+   50   007C' FA 006E'          	jp	m,l25
+   51                           ;demofsm.c: 42: {asm("di");(*(port unsigned char
+                                 *)(0x99) = ((1)));(*(port unsigned char *)(0x99
                                 ) = (0x80|(14)));asm("ei");};
-   46   008A' F3                di ;#
-   47   008B' 3E 00             	ld	a,0
-   48   008D' D3 99             	out	(099h),a
-   49   008F' 3E 8E             	ld	a,-114
-   50   0091' D3 99             	out	(099h),a
-   46   0093' FB                ei ;#
-   47                           ;demofsm.c: 47: {asm("di");(*(port unsigned char
-                                 *)(0x99) = ((0)&255));(*(port unsigned char *)(
-                                0x99) = (0x40|((0)>>8)));asm("ei");};
-   48   0094' F3                di ;#
-   49   0095' 3E 00             	ld	a,0
+   42   007F' F3                di ;#
+   43   0080' 3E 01             	ld	a,01h
+   44   0082' D3 99             	out	(099h),a
+   45   0084' 3E 8E             	ld	a,-114
+   46   0086' D3 99             	out	(099h),a
+   42   0088' FB                ei ;#
+   43                           ;demofsm.c: 43: for (i=0;i<32;i++) {
+   44   0089' 01 0000           	ld	bc,0
+   45   008C'                   l28:
+   46                           ;demofsm.c: 44: {asm("di");(*(port unsigned char
+                                 *)(0x99) = ((0x3600+i*4+2)&255));(*(port unsign
+                                ed char *)(0x99) = (0x40|((0x3600+i*4+2)>>8)));a
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
 
                                                                       Page   4
 
 
-   50   0097' D3 99             	out	(099h),a
-   51   0099' 3E 40             	ld	a,040h
-   52   009B' D3 99             	out	(099h),a
-   47   009D' FB                ei ;#
-   48                           ;demofsm.c: 48: for (i=212*128;i>0;i--) (*(port 
-                                unsigned char *)(0x98) = (i));
-   49                           ; _i allocated to bc
-   50   009E' 01 6A00           	ld	bc,06A00h
-   51   00A1'                   l21:
-   52   00A1' 79                	ld	a,c
-   53   00A2' D3 98             	out	(098h),a
-   54   00A4' 0B                	dec	bc
-   55   00A5' 78                	ld	a,b
-   56   00A6' B1                	or	c
-   57   00A7' 20 F8             	jp	nz,l21
-   58                           ;demofsm.c: 49: }
-   59   00A9' C9                	ret	
-   60                           	global	_main
-   61                           	signat	_main,26
-   62                           	global	_en
-   63                           	global	_srand8
-   64                           	signat	_srand8,4152
-   65                           	global	_rand8
-   66                           	signat	_rand8,25
-   67                           	global	_fsm
-   68                           	signat	_fsm,4152
-   69                           	global	_checkkbd
-   70                           	signat	_checkkbd,4153
-   71                           	global	_TextMode
-   72                           	signat	_TextMode,4152
-   73                           	global	lmod
-   74                           	global	lmod
-   75                           ;demofsm.c: 53: enum state {right,left,uplf,uprg
-                                ,downlf,downrg};
-   76                           ;demofsm.c: 55: struct enemy {
-   77                           ;demofsm.c: 56: unsigned char x;
-   78                           ;demofsm.c: 57: unsigned char y;
-   79                           ;demofsm.c: 58: enum state st;
-   80                           ;demofsm.c: 59: unsigned char cnt;
-   81                           ;demofsm.c: 60: };
-   82                           ;demofsm.c: 62: void fsm(struct enemy *);
-   83                           ;demofsm.c: 70: struct enemy en[32];
-   84                           ;demofsm.c: 72: int main(void) {
-   85   00AA'                   _main:
-   86   00AA' DD E5             	push	ix
-   87   00AC' DD 21 0000        	ld	ix,0
-   88   00B0' DD 39             	add	ix,sp
-   89   00B2' 3B                	dec	sp
-   90   00B3' FD E5             	push	iy
-   91                           ;demofsm.c: 76: unsigned char n;
-   92   00B5' CD 007A'          	call	_screenint
-   93                           ;demofsm.c: 80: sprtinit();
-   94   00B8' CD 0000'          	call	_sprtinit
-   95                           ;demofsm.c: 82: srand8((*((uint *) 0xFC9E)));
-   96   00BB' ED 5B FC9E        	ld	de,(-866)
+                                sm("ei");};
+   44   008C' F3                di ;#
+   45   008D' 79                	ld	a,c
+   46   008E' CB 27             	sll	a
+   47   0090' CB 27             	sll	a
+   48   0092' C6 02             	add	a,02h
+   49   0094' D3 99             	out	(099h),a
+   50   0096' 69                	ld	l,c
+   51   0097' 60                	ld	h,b
+   52   0098' 29                	add	hl,hl
+   53   0099' 29                	add	hl,hl
+   54   009A' 11 3602           	ld	de,03602h
+   55   009D' 19                	add	hl,de
+   56   009E' 7C                	ld	a,h
+   57   009F' 6F                	ld	l,a
+   58   00A0' 17                	rla
+   59   00A1' 9F                	sbc	a,a
+   60   00A2' 67                	ld	h,a
+   61   00A3' 7D                	ld	a,l
+   62   00A4' F6 40             	or	040h
+   63   00A6' D3 99             	out	(099h),a
+   44   00A8' FB                ei ;#
+   45                           ;demofsm.c: 45: (*(port unsigned char *)(0x98) =
+                                 (0));
+   46   00A9' 3E 00             	ld	a,0
+   47   00AB' D3 98             	out	(098h),a
+   48                           ;demofsm.c: 46: }
+   49   00AD' 03                	inc	bc
+   50   00AE' 21 0020           	ld	hl,020h
+   51   00B1' CD 0000*          	call	wrelopbc
+   52   00B4' FA 008C'          	jp	m,l28
+   53                           ;demofsm.c: 47: }
+   54   00B7' FD E1             	pop	iy
+   55   00B9' C9                	ret	
+   56                           	global	_putsprt
+   57                           	signat	_putsprt,12344
+   58                           ;demofsm.c: 50: void putsprt(unsigned char n,uns
+                                igned char x,unsigned char y) {
+   59   00BA'                   _putsprt:
+   60   00BA' DD E5             	push	ix
+   61   00BC' DD 21 0000        	ld	ix,0
+   62   00C0' DD 39             	add	ix,sp
+   63                           ; _x loaded to d
+   64   00C2' 51                	ld	d,c
+   65                           ;demofsm.c: 51: {asm("di");(*(port unsigned char
+                                 *)(0x99) = ((0x3600+4*n)&255));(*(port unsigned
+                                 char *)(0x99) = (0x40|((0x3600+4*n)>>8)));asm("
+                                ei");};
+   51   00C3' F3                di ;#
+   52   00C4' 7B                	ld	a,e
+   53   00C5' CB 27             	sll	a
+   54   00C7' CB 27             	sll	a
+   55   00C9' D3 99             	out	(099h),a
+   56   00CB' 6B                	ld	l,e
+   57   00CC' 26 00             	ld	h,0
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
 
                                                                       Page   5
 
 
-   97   00BF' CD 0000*          	call	_srand8
-   98                           ;demofsm.c: 84: p_en = en;
-   99   00C2' FD 21 0000'       	ld	iy,_en
-  100                           ;demofsm.c: 86: for (n=0;n<32;n++) {
-  101   00C6' DD 36 FF 00       	ld	(ix+-1),0
-  102   00CA'                   l26:
-  103                           ;demofsm.c: 87: p_en->x = rand8() % 240;
-  104   00CA' CD 0000*          	call	_rand8
-  105   00CD' 26 00             	ld	h,0
-  106   00CF' 11 FFF0           	ld	de,-16
-  107   00D2' CD 0000*          	call	lmod
-  108   00D5' FD 75 00          	ld	(iy+0),l
-  109                           ;demofsm.c: 88: p_en->y = rand8() % 160;
-  110   00D8' CD 0000*          	call	_rand8
-  111   00DB' 26 00             	ld	h,0
-  112   00DD' 11 FFA0           	ld	de,-96
-  113   00E0' CD 0000*          	call	lmod
-  114   00E3' FD 75 01          	ld	(iy+1),l
-  115                           ;demofsm.c: 89: p_en->st = rand8() % 2;
-  116   00E6' CD 0000*          	call	_rand8
-  117   00E9' 7D                	ld	a,l
-  118   00EA' E6 01             	and	01h
-  119   00EC' FD 77 02          	ld	(iy+2),a
-  120                           ;demofsm.c: 90: p_en++;
-  121   00EF' FD 23             	inc	iy
-  122   00F1' FD 23             	inc	iy
-  123   00F3' FD 23             	inc	iy
-  124   00F5' FD 23             	inc	iy
-  125                           ;demofsm.c: 91: }
-  126                           ; _n loaded to c
-  127   00F7' DD 4E FF          	ld	c,(ix+-1)
-  128   00FA' 0C                	inc	c
-  129                           ;_n stored from c
-  130   00FB' DD 71 FF          	ld	(ix+-1),c
-  131   00FE' 79                	ld	a,c
-  132   00FF' FE 20             	cp	020h
-  133   0101' 38 C7             	jp	c,l26
-  134                           ;demofsm.c: 93: while (checkkbd(7)&4) {
-  135   0103' 18 54             	jp	l29
-  136   0105'                   l30:
-  137                           ;demofsm.c: 98: p_en = en;
-  138   0105' FD 21 0000'       	ld	iy,_en
-  139                           ;demofsm.c: 100: for (n=32;n>0;n--) {
-  140   0109' 0E 20             	ld	c,020h
-  141   010B'                   l32:
-  142                           ;_n stored from c
-  143   010B' DD 71 FF          	ld	(ix+-1),c
-  144                           ;demofsm.c: 101: fsm(p_en);
-  145   010E' FD E5             	push	iy
-  146   0110' D1                	pop	de
-  147   0111' CD 0171'          	call	_fsm
-  148                           ;demofsm.c: 102: p_en++;
-  149   0114' FD 23             	inc	iy
-  150   0116' FD 23             	inc	iy
-  151   0118' FD 23             	inc	iy
+   58   00CE' 29                	add	hl,hl
+   59   00CF' 29                	add	hl,hl
+   60   00D0' 01 3600           	ld	bc,03600h
+   61   00D3' 09                	add	hl,bc
+   62   00D4' 7C                	ld	a,h
+   63   00D5' F6 40             	or	040h
+   64   00D7' D3 99             	out	(099h),a
+   51   00D9' FB                ei ;#
+   52                           ;demofsm.c: 52: (*(port unsigned char *)(0x98) =
+                                 (y));
+   53   00DA' DD 7E 04          	ld	a,(ix+4)
+   54   00DD' D3 98             	out	(098h),a
+   55                           ;demofsm.c: 53: (*(port unsigned char *)(0x98) =
+                                 (x));
+   56   00DF' 7A                	ld	a,d
+   57   00E0' D3 98             	out	(098h),a
+   58                           ;demofsm.c: 54: }
+   59   00E2' DD E1             	pop	ix
+   60   00E4' E1                	pop	hl
+   61   00E5' F1                	pop	af
+   62   00E6' E9                	jp	(hl)
+   63                           	global	_screenint
+   64                           	signat	_screenint,24
+   65                           	global	_scr
+   66                           	signat	_scr,4152
+   67                           	global	_loadvrampalette
+   68                           	signat	_loadvrampalette,4152
+   69                           	global	_setpage
+   70                           	signat	_setpage,4152
+   71                           	global	_vdp_cmd
+   72                           	signat	_vdp_cmd,36920
+   73                           	global	_loadvrambox
+   74                           	signat	_loadvrambox,12344
+   75                           	global	_line
+   76                           	signat	_line,24632
+   77                           ;demofsm.c: 56: void screenint(void) {
+   78   00E7'                   _screenint:
+   79   00E7' FD E5             	push	iy
+   80                           ;demofsm.c: 57: uint n;
+   81   00E9' 1E 05             	ld	e,05h
+   82   00EB' CD 0000*          	call	_scr
+   83                           ;demofsm.c: 60: loadvrampalette("bg1.pl5");
+   84   00EE' 11 0009'          	ld	de,u19
+   85   00F1' CD 0000*          	call	_loadvrampalette
+   86                           ;demofsm.c: 61: setpage(0);
+   87   00F4' 1E 00             	ld	e,0
+   88   00F6' CD 0000*          	call	_setpage
+   89                           ;demofsm.c: 63: {asm("di");(*(port unsigned char
+                                 *)(0x99) = ((0)));(*(port unsigned char *)(0x99
+                                ) = (0x80|(14)));asm("ei");};
+   63   00F9' F3                di ;#
+   64   00FA' 3E 00             	ld	a,0
+   65   00FC' D3 99             	out	(099h),a
+   66   00FE' 3E 8E             	ld	a,-114
+   67   0100' D3 99             	out	(099h),a
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
 
                                                                       Page   6
 
 
-  152   011A' FD 23             	inc	iy
-  153                           ;demofsm.c: 103: }
-  154                           ; _n loaded to c
-  155   011C' DD 4E FF          	ld	c,(ix+-1)
-  156   011F' 0D                	dec	c
-  157   0120' 79                	ld	a,c
-  158   0121' B7                	or	a
-  159   0122' 20 E7             	jp	nz,l32
-  160                           ;demofsm.c: 108: {uint t=(*((uint *) 0xFC9E)); w
-                                hile(t==(*((uint *) 0xFC9E)));};
-  161                           ; _t allocated to bc
-  162   0124' ED 4B FC9E        	ld	bc,(-866)
-  163   0128'                   l35:
-  164   0128' 2A FC9E           	ld	hl,(-866)
-  165   012B' B7                	or	a
-  166   012C' ED 42             	sbc	hl,bc
-  167   012E' 28 F8             	jp	z,l35
-  168                           ;demofsm.c: 110: p_en = en;
-  169   0130' FD 21 0000'       	ld	iy,_en
-  170                           ;demofsm.c: 112: for (n=0;n<32;n++) {
-  171   0134' DD 36 FF 00       	ld	(ix+-1),0
-  172   0138'                   l38:
-  173                           ;demofsm.c: 113: putsprt(n,p_en->x,p_en->y);
-  174   0138' FD 6E 01          	ld	l,(iy+1)
-  175   013B' E5                	push	hl
-  176   013C' FD 4E 00          	ld	c,(iy+0)
-  177   013F' DD 5E FF          	ld	e,(ix+-1)
-  178   0142' CD 0052'          	call	_putsprt
-  179                           ;demofsm.c: 114: p_en++;
-  180   0145' FD 23             	inc	iy
-  181   0147' FD 23             	inc	iy
-  182   0149' FD 23             	inc	iy
-  183   014B' FD 23             	inc	iy
-  184                           ;demofsm.c: 115: }
-  185                           ; _n loaded to d
-  186   014D' DD 56 FF          	ld	d,(ix+-1)
-  187   0150' 14                	inc	d
-  188                           ;_n stored from d
-  189   0151' DD 72 FF          	ld	(ix+-1),d
-  190   0154' 7A                	ld	a,d
-  191   0155' FE 20             	cp	020h
-  192   0157' 38 DF             	jp	c,l38
-  193   0159'                   l29:
-  194                           ;demofsm.c: 116: }
-  195   0159' 1E 07             	ld	e,07h
-  196   015B' CD 0000*          	call	_checkkbd
-  197   015E' CB 55             	bit	02h,l
-  198   0160' 20 A3             	jp	nz,l30
-  199                           ;demofsm.c: 118: TextMode(40);
-  200   0162' 1E 28             	ld	e,028h
-  201   0164' CD 0000*          	call	_TextMode
-  202                           ;demofsm.c: 120: return 0;
-  203   0167' 21 0000           	ld	hl,0
-  204                           ;demofsm.c: 121: }
-  205   016A' FD E1             	pop	iy
+   63   0102' FB                ei ;#
+   64                           ;demofsm.c: 64: {asm("di");(*(port unsigned char
+                                 *)(0x99) = ((0)&255));(*(port unsigned char *)(
+                                0x99) = (0x40|((0)>>8)));asm("ei");};
+   65   0103' F3                di ;#
+   66   0104' 3E 00             	ld	a,0
+   67   0106' D3 99             	out	(099h),a
+   68   0108' 3E 40             	ld	a,040h
+   69   010A' D3 99             	out	(099h),a
+   64   010C' FB                ei ;#
+   65                           ;demofsm.c: 65: for (n=212*128;n>0;n--) (*(port 
+                                unsigned char *)(0x98) = (n));
+   66                           ; _n allocated to bc
+   67   010D' 01 6A00           	ld	bc,06A00h
+   68   0110'                   l33:
+   69   0110' 79                	ld	a,c
+   70   0111' D3 98             	out	(098h),a
+   71   0113' 0B                	dec	bc
+   72   0114' 78                	ld	a,b
+   73   0115' B1                	or	c
+   74   0116' 20 F8             	jp	nz,l33
+   75                           ;demofsm.c: 67: vdp_cmd(0,0,0,0,256,212,0x77, 0,
+                                0xC0);
+   76   0118' 2E C0             	ld	l,-64
+   77   011A' E5                	push	hl
+   78   011B' 2E 00             	ld	l,0
+   79   011D' E5                	push	hl
+   80   011E' 2E 77             	ld	l,077h
+   81   0120' E5                	push	hl
+   82   0121' 21 00D4           	ld	hl,0D4h
+   83   0124' E5                	push	hl
+   84   0125' 21 0100           	ld	hl,0100h
+   85   0128' E5                	push	hl
+   86   0129' 21 0000           	ld	hl,0
+   87   012C' E5                	push	hl
+   88   012D' E5                	push	hl
+   89   012E' 4D                	ld	c,l
+   90   012F' 44                	ld	b,h
+   91   0130' 59                	ld	e,c
+   92   0131' 50                	ld	d,b
+   93   0132' CD 0000*          	call	_vdp_cmd
+   94                           ;demofsm.c: 69: loadvrambox("test.cpy",64,64);
+   95   0135' 21 0040           	ld	hl,040h
+   96   0138' E5                	push	hl
+   97   0139' 4D                	ld	c,l
+   98   013A' 44                	ld	b,h
+   99   013B' 11 0000'          	ld	de,u29
+  100   013E' CD 0000*          	call	_loadvrambox
+  101                           ;demofsm.c: 71: for (n=0;n<256;n++) {
+  102                           ; _n allocated to iy
+  103   0141' FD 21 0000        	ld	iy,0
+  104   0145'                   l36:
+  105                           ;demofsm.c: 72: line (127,106,n, 0,n,0x00);
+  106   0145' 2E 00             	ld	l,0
+  107   0147' E5                	push	hl
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
 
                                                                       Page   7
 
 
-  206   016C' DD F9             	ld	sp,ix
-  207   016E' DD E1             	pop	ix
-  208   0170' C9                	ret	
-  209                           ;demofsm.c: 126: void fsm(struct enemy *en) {
-  210   0171'                   _fsm:
-  211   0171' FD E5             	push	iy
-  212                           ; _en loaded to iy
-  213   0173' D5                	push	de
-  214   0174' FD E1             	pop	iy
-  215                           ;demofsm.c: 127: switch (en->st) {
-  216   0176' FD 7E 02          	ld	a,(iy+2)
-  217   0179' B7                	or	a
-  218   017A' 28 1A             	jp	z,l44
-  219   017C' FE 01             	cp	01h
-  220   017E' CA 01F5'          	jp	z,l57
-  221   0181' FE 02             	cp	02h
-  222   0183' CA 0206'          	jp	z,l60
-  223   0186' FE 03             	cp	03h
-  224   0188' CA 0211'          	jp	z,l63
-  225   018B' FE 04             	cp	04h
-  226   018D' 28 24             	jp	z,l47
-  227   018F' FE 05             	cp	05h
-  228   0191' 28 48             	jp	z,l52
-  229                           ;demofsm.c: 183: }
-  230   0193'                   l41:
-  231   0193' FD E1             	pop	iy
-  232   0195' C9                	ret	
-  233   0196'                   l44:
-  234                           ;demofsm.c: 128: case right: {
-  235                           ;demofsm.c: 129: if (en->x<240)
-  236   0196' FD 7E 00          	ld	a,(iy+0)
-  237   0199' FE F0             	cp	-16
-  238   019B' 30 05             	jp	nc,l45
-  239                           ;demofsm.c: 130: en->x++;
-  240   019D' FD 34 00          	inc	(iy+0)
-  241                           ;demofsm.c: 131: else {
-  242   01A0' 18 F1             	jp	l41
-  243   01A2'                   l45:
-  244                           ;demofsm.c: 132: en->st = downlf;
-  245   01A2' FD 36 02 04       	ld	(iy+2),04h
-  246   01A6'                   L1:
-  247                           ;demofsm.c: 133: en->cnt = 16 + (rand8()&31);
-  248   01A6' CD 0000*          	call	_rand8
-  249   01A9' 7D                	ld	a,l
-  250   01AA' E6 1F             	and	01Fh
-  251   01AC' C6 10             	add	a,010h
-  252   01AE' FD 77 03          	ld	(iy+3),a
-  253                           ;demofsm.c: 134: }
-  254                           ;demofsm.c: 135: break;
-  255   01B1' 18 E0             	jp	l41
-  256   01B3'                   l47:
-  257                           ;demofsm.c: 136: }
-  258                           ;demofsm.c: 138: if ((en->y<196) && (en->cnt>0))
-                                 {
-  259   01B3' FD 7E 01          	ld	a,(iy+1)
+  108   0148' FD E5             	push	iy
+  109   014A' E1                	pop	hl
+  110   014B' E5                	push	hl
+  111   014C' 21 0000           	ld	hl,0
+  112   014F' E5                	push	hl
+  113   0150' FD E5             	push	iy
+  114   0152' 01 006A           	ld	bc,06Ah
+  115   0155' 11 007F           	ld	de,07Fh
+  116   0158' CD 0000*          	call	_line
+  117                           ;demofsm.c: 73: line (127,106,n,211,n,0x00);
+  118   015B' 2E 00             	ld	l,0
+  119   015D' E5                	push	hl
+  120   015E' FD E5             	push	iy
+  121   0160' E1                	pop	hl
+  122   0161' E5                	push	hl
+  123   0162' 21 00D3           	ld	hl,0D3h
+  124   0165' E5                	push	hl
+  125   0166' FD E5             	push	iy
+  126   0168' 01 006A           	ld	bc,06Ah
+  127   016B' 11 007F           	ld	de,07Fh
+  128   016E' CD 0000*          	call	_line
+  129                           ;demofsm.c: 74: }
+  130   0171' FD 23             	inc	iy
+  131   0173' 01 0100           	ld	bc,0100h
+  132   0176' FD E5             	push	iy
+  133   0178' E1                	pop	hl
+  134   0179' B7                	or	a
+  135   017A' ED 42             	sbc	hl,bc
+  136   017C' 38 C7             	jp	c,l36
+  137                           ;demofsm.c: 75: for (n=0;n<212;n++) {
+  138   017E' FD 21 0000        	ld	iy,0
+  139   0182'                   l39:
+  140                           ;demofsm.c: 76: line (127,106, 0,n,n,0x00);
+  141   0182' 2E 00             	ld	l,0
+  142   0184' E5                	push	hl
+  143   0185' FD E5             	push	iy
+  144   0187' E1                	pop	hl
+  145   0188' E5                	push	hl
+  146   0189' FD E5             	push	iy
+  147   018B' 21 0000           	ld	hl,0
+  148   018E' E5                	push	hl
+  149   018F' 01 006A           	ld	bc,06Ah
+  150   0192' 11 007F           	ld	de,07Fh
+  151   0195' CD 0000*          	call	_line
+  152                           ;demofsm.c: 77: line (127,106,255,n,n,0x00);
+  153   0198' 2E 00             	ld	l,0
+  154   019A' E5                	push	hl
+  155   019B' FD E5             	push	iy
+  156   019D' E1                	pop	hl
+  157   019E' E5                	push	hl
+  158   019F' FD E5             	push	iy
+  159   01A1' 21 00FF           	ld	hl,0FFh
+  160   01A4' E5                	push	hl
+  161   01A5' 01 006A           	ld	bc,06Ah
+  162   01A8' 11 007F           	ld	de,07Fh
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
 
                                                                       Page   8
 
 
-  260   01B6' FE C4             	cp	-60
-  261   01B8' 30 0E             	jp	nc,l48
-  262   01BA' FD 7E 03          	ld	a,(iy+3)
-  263   01BD' B7                	or	a
-  264   01BE' 28 08             	jp	z,l48
-  265   01C0'                   L2:
-  266                           ;demofsm.c: 139: en->y++;
-  267   01C0' FD 34 01          	inc	(iy+1)
-  268                           ;demofsm.c: 140: en->cnt--;
-  269   01C3' FD 35 03          	dec	(iy+3)
-  270                           ;demofsm.c: 141: }
-  271   01C6' 18 CB             	jp	l41
-  272   01C8'                   l48:
-  273   01C8' FD 7E 01          	ld	a,(iy+1)
-  274   01CB' FE C4             	cp	-60
-  275   01CD' 38 06             	jp	c,L4
-  276                           
-  277                           ;demofsm.c: 143: en->st = uplf;
-  278   01CF' FD 36 02 02       	ld	(iy+2),02h
-  279                           ;demofsm.c: 144: else
-  280   01D3' 18 BE             	jp	l41
-  281   01D5'                   L4:
-  282                           ;demofsm.c: 145: en->st = left;
-  283   01D5' FD 36 02 01       	ld	(iy+2),01h
-  284                           ;demofsm.c: 146: break;
-  285   01D9' 18 B8             	jp	l41
-  286   01DB'                   l52:
-  287                           ;demofsm.c: 147: }
-  288                           ;demofsm.c: 149: if (((en->y)<196) && (en->cnt>0
-                                )) {
-  289   01DB' FD 7E 01          	ld	a,(iy+1)
-  290   01DE' FE C4             	cp	-60
-  291   01E0' 30 06             	jp	nc,l53
-  292   01E2' FD 7E 03          	ld	a,(iy+3)
-  293   01E5' B7                	or	a
-  294   01E6' 20 D8             	jp	nz,L2
-  295                           
-  296                           ;demofsm.c: 152: }
-  297   01E8'                   l53:
-  298   01E8' FD 7E 01          	ld	a,(iy+1)
-  299   01EB' FE C4             	cp	-60
-  300   01ED' 38 28             	jp	c,l55
-  301                           ;demofsm.c: 154: en->st = uprg;
-  302   01EF' FD 36 02 03       	ld	(iy+2),03h
-  303                           ;demofsm.c: 155: else
-  304   01F3' 18 9E             	jp	l41
-  305   01F5'                   l57:
-  306                           ;demofsm.c: 158: }
-  307                           ;demofsm.c: 160: if (en->x>0)
-  308   01F5' FD 7E 00          	ld	a,(iy+0)
-  309   01F8' B7                	or	a
-  310   01F9' 28 05             	jp	z,l58
-  311                           ;demofsm.c: 161: en->x--;
-  312   01FB' FD 35 00          	dec	(iy+0)
-  313                           ;demofsm.c: 162: else {
+  163   01AB' CD 0000*          	call	_line
+  164                           ;demofsm.c: 78: }
+  165   01AE' FD 23             	inc	iy
+  166   01B0' 01 00D4           	ld	bc,0D4h
+  167   01B3' FD E5             	push	iy
+  168   01B5' E1                	pop	hl
+  169   01B6' B7                	or	a
+  170   01B7' ED 42             	sbc	hl,bc
+  171   01B9' 38 C7             	jp	c,l39
+  172                           ;demofsm.c: 80: }
+  173   01BB' FD E1             	pop	iy
+  174   01BD' C9                	ret	
+  175                           	global	_myball
+  176   0020'                   	psect		data
+  177   0020'                   _myball:
+  178   0020' 0078              	defw	120
+  179   0022' 0062              	defw	98
+  180   0024' 00                	defb	0
+  181   0025' 0000              	defw	0
+  182                           ;demofsm.c: 105: interact(struct enemy * p) {
+  183                           	global	_interact
+  184                           	signat	_interact,4154
+  185                           	global	_checkjoy
+  186                           	signat	_checkjoy,25
+  187   01BE'                   	psect		text
+  188                           ;demofsm.c: 84: enum state {right,left,up,down,i
+                                dle};
+  189                           ;demofsm.c: 86: struct enemy {
+  190                           ;demofsm.c: 87: int x;
+  191                           ;demofsm.c: 88: int y;
+  192                           ;demofsm.c: 89: enum state st;
+  193                           ;demofsm.c: 90: int cnt;
+  194                           ;demofsm.c: 91: };
+  195                           ;demofsm.c: 93: void fsm(struct enemy *);
+  196                           ;demofsm.c: 101: struct enemy en[31];
+  197                           ;demofsm.c: 103: struct enemy myball = {120,98,0
+                                ,0};
+  198   01BE'                   _interact:
+  199   01BE' DD E5             	push	ix
+  200   01C0' DD 21 0000        	ld	ix,0
+  201   01C4' DD 39             	add	ix,sp
+  202   01C6' 3B                	dec	sp
+  203   01C7' FD E5             	push	iy
+  204                           ; _p loaded to iy
+  205   01C9' D5                	push	de
+  206   01CA' FD E1             	pop	iy
+  207                           ;demofsm.c: 106: unsigned char io = checkjoy ();
+  208   01CC' CD 0000*          	call	_checkjoy
+  209   01CF' DD 75 FF          	ld	(ix+-1),l
+  210                           ;demofsm.c: 107: if (io & 1) {p->y--;}
+  211                           ; _io loaded to c
+  212   01D2' 4D                	ld	c,l
+  213   01D3' CB 41             	bit	0,c
+  214   01D5' 28 0D             	jp	z,l44
+  215   01D7' FD 6E 02          	ld	l,(iy+2)
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
 
                                                                       Page   9
 
 
-  314   01FE' 18 93             	jp	l41
-  315   0200'                   l58:
-  316                           ;demofsm.c: 163: en->st = downrg;
-  317   0200' FD 36 02 05       	ld	(iy+2),05h
-  318   0204' 18 A0             	jp	L1
-  319                           
-  320                           ;demofsm.c: 165: }
-  321                           ;demofsm.c: 166: break;
-  322   0206'                   l60:
-  323                           ;demofsm.c: 167: }
-  324                           ;demofsm.c: 169: if (en->y>0)
-  325   0206' FD 7E 01          	ld	a,(iy+1)
-  326   0209' B7                	or	a
-  327   020A' 28 C9             	jp	z,L4
-  328                           
-  329   020C'                   L3:
-  330                           ;demofsm.c: 170: en->y--;
-  331   020C' FD 35 01          	dec	(iy+1)
-  332                           ;demofsm.c: 171: else
-  333   020F' 18 82             	jp	l41
-  334                           ;demofsm.c: 173: break;
-  335   0211'                   l63:
-  336                           ;demofsm.c: 174: }
-  337                           ;demofsm.c: 176: if (en->y>0)
-  338   0211' FD 7E 01          	ld	a,(iy+1)
-  339   0214' B7                	or	a
-  340   0215' 20 F5             	jp	nz,L3
-  341                           
-  342   0217'                   l55:
-  343                           ;demofsm.c: 156: en->st = right;
-  344   0217' FD 36 02 00       	ld	(iy+2),0
-  345                           ;demofsm.c: 157: break;
-  346   021B' C3 0193'          	jp	l41
-  347                           ;demofsm.c: 180: break;
-  348   0000'                   	psect	strings,class=CODE
-  349   0000'                   u19:
-  350   0000' 62 67 31 2E       	defb	"bg1.pl5",0
-        0004' 70 6C 35 00       
-  351   0000'                   	psect	bss,class=DATA
-  352   0000'                   _en:
-  353   0000'                   	defs	128
-  354   021E'                   	psect		text
+  216   01DA' FD 66 03          	ld	h,(iy+3)
+  217   01DD' 2B                	dec	hl
+  218   01DE' FD 75 02          	ld	(iy+2),l
+  219   01E1' FD 74 03          	ld	(iy+3),h
+  220   01E4'                   l44:
+  221                           ;demofsm.c: 108: if (io & 2) {p->y++;}
+  222   01E4' CB 49             	bit	01h,c
+  223   01E6' 28 08             	jp	z,l45
+  224   01E8' FD 34 02          	inc	(iy+2)
+  225   01EB' 20 03             	jp	nz,l45
+  226   01ED' FD 34 03          	inc	(iy+3)
+  227   01F0'                   l45:
+  228                           ;demofsm.c: 109: if (io & 4) {p->x--;}
+  229   01F0' CB 51             	bit	02h,c
+  230   01F2' 28 0D             	jp	z,l46
+  231   01F4' FD 6E 00          	ld	l,(iy+0)
+  232   01F7' FD 66 01          	ld	h,(iy+1)
+  233   01FA' 2B                	dec	hl
+  234   01FB' FD 75 00          	ld	(iy+0),l
+  235   01FE' FD 74 01          	ld	(iy+1),h
+  236   0201'                   l46:
+  237                           ;demofsm.c: 110: if (io & 8) {p->x++;}
+  238   0201' CB 59             	bit	03h,c
+  239   0203' 28 08             	jp	z,l43
+  240   0205' FD 34 00          	inc	(iy+0)
+  241   0208' 20 03             	jp	nz,l43
+  242   020A' FD 34 01          	inc	(iy+1)
+  243                           ;demofsm.c: 113: }
+  244   020D'                   l43:
+  245   020D' FD E1             	pop	iy
+  246   020F' DD F9             	ld	sp,ix
+  247   0211' DD E1             	pop	ix
+  248   0213' C9                	ret	
+  249                           	global	_main
+  250                           	signat	_main,26
+  251                           	global	_srand8
+  252                           	signat	_srand8,4152
+  253                           	global	_en
+  254                           	global	_fsm
+  255                           	signat	_fsm,4152
+  256                           	global	_myball
+  257                           	global	_checkkbd
+  258                           	signat	_checkkbd,4153
+  259                           	global	_TextMode
+  260                           	signat	_TextMode,4152
+  261                           	global	amul
+  262                           	global	wrelop
+  263                           	global	wrelopbc
+  264                           	global	wrelopbc
+  265                           ;demofsm.c: 115: int main(void) {
+  266   0214'                   _main:
+  267   0214' DD E5             	push	ix
+  268   0216' DD 21 0000        	ld	ix,0
+  269   021A' DD 39             	add	ix,sp
+  270   021C' C5                	push	bc
 
 
-HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
 
                                                                       Page  10
+
+
+  271   021D' FD E5             	push	iy
+  272                           ;demofsm.c: 117: int n;
+  273   021F' CD 00E7'          	call	_screenint
+  274                           ;demofsm.c: 121: srand8((*((uint *) 0xFC9E)));
+  275   0222' ED 5B FC9E        	ld	de,(-866)
+  276   0226' CD 0000*          	call	_srand8
+  277                           ;demofsm.c: 123: sprtinit();
+  278   0229' CD 0000'          	call	_sprtinit
+  279                           ;demofsm.c: 125: for (n=0;n<31;n++) {
+  280                           ; _n allocated to iy
+  281   022C' FD 21 0000        	ld	iy,0
+  282   0230'                   l49:
+  283                           ;demofsm.c: 126: en[n].x = 120;
+  284   0230' FD E5             	push	iy
+  285   0232' E1                	pop	hl
+  286   0233' 44                	ld	b,h
+  287   0234' 4D                	ld	c,l
+  288   0235' 29                	add	hl,hl
+  289   0236' 09                	add	hl,bc
+  290   0237' 29                	add	hl,hl
+  291   0238' 09                	add	hl,bc
+  292   0239' 11 0000'          	ld	de,_en
+  293   023C' 19                	add	hl,de
+  294   023D' 36 78             	ld	(hl),078h
+  295   023F' 23                	inc	hl
+  296   0240' 36 00             	ld	(hl),0
+  297                           ;demofsm.c: 127: en[n].y = -17;
+  298   0242' FD E5             	push	iy
+  299   0244' E1                	pop	hl
+  300   0245' 44                	ld	b,h
+  301   0246' 4D                	ld	c,l
+  302   0247' 29                	add	hl,hl
+  303   0248' 09                	add	hl,bc
+  304   0249' 29                	add	hl,hl
+  305   024A' 09                	add	hl,bc
+  306   024B' 11 0002'          	ld	de,_en+02h
+  307   024E' 19                	add	hl,de
+  308   024F' 36 EF             	ld	(hl),0EFh
+  309   0251' 23                	inc	hl
+  310   0252' 36 FF             	ld	(hl),0FFh
+  311                           ;demofsm.c: 128: en[n].st = idle;
+  312   0254' FD E5             	push	iy
+  313   0256' E1                	pop	hl
+  314   0257' 44                	ld	b,h
+  315   0258' 4D                	ld	c,l
+  316   0259' 29                	add	hl,hl
+  317   025A' 09                	add	hl,bc
+  318   025B' 29                	add	hl,hl
+  319   025C' 09                	add	hl,bc
+  320   025D' 11 0004'          	ld	de,_en+04h
+  321   0260' 19                	add	hl,de
+  322   0261' 36 04             	ld	(hl),04h
+  323                           ;demofsm.c: 129: en[n].cnt = (n+1) * 42;
+  324   0263' 11 002A           	ld	de,02Ah
+  325   0266' FD E5             	push	iy
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
+
+                                                                      Page  11
+
+
+  326   0268' E1                	pop	hl
+  327   0269' 23                	inc	hl
+  328   026A' CD 0000*          	call	amul
+  329   026D' E5                	push	hl
+  330   026E' FD E5             	push	iy
+  331   0270' E1                	pop	hl
+  332   0271' 44                	ld	b,h
+  333   0272' 4D                	ld	c,l
+  334   0273' 29                	add	hl,hl
+  335   0274' 09                	add	hl,bc
+  336   0275' 29                	add	hl,hl
+  337   0276' 09                	add	hl,bc
+  338   0277' 11 0005'          	ld	de,_en+05h
+  339   027A' 19                	add	hl,de
+  340   027B' EB                	ex	de,hl
+  341   027C' E1                	pop	hl
+  342   027D' 7D                	ld	a,l
+  343   027E' 12                	ld	(de),a
+  344   027F' 13                	inc	de
+  345   0280' 7C                	ld	a,h
+  346   0281' 12                	ld	(de),a
+  347                           ;demofsm.c: 130: }
+  348   0282' FD 23             	inc	iy
+  349   0284' 11 001F           	ld	de,01Fh
+  350   0287' FD E5             	push	iy
+  351   0289' E1                	pop	hl
+  352   028A' CD 0000*          	call	wrelop
+  353   028D' FA 0230'          	jp	m,l49
+  354                           ;demofsm.c: 132: while (checkkbd(7)&4) {
+  355   0290' C3 0319'          	jp	l52
+  356   0293'                   l53:
+  357                           ;demofsm.c: 134: struct enemy *p_en;
+  358                           ; _p_en allocated to iy
+  359   0293' FD 21 0000'       	ld	iy,_en
+  360                           ;demofsm.c: 140: for (n=0;n<31;n++) {
+  361                           ; _n allocated to bc
+  362   0297' 01 0000           	ld	bc,0
+  363   029A'                   l55:
+  364                           ;_n stored from bc
+  365   029A' DD 71 FE          	ld	(ix+-2),c
+  366   029D' DD 70 FF          	ld	(ix+-1),b
+  367                           ;demofsm.c: 141: fsm(p_en);
+  368   02A0' FD E5             	push	iy
+  369   02A2' D1                	pop	de
+  370   02A3' CD 0332'          	call	_fsm
+  371                           ;demofsm.c: 142: p_en++;
+  372   02A6' 11 0007           	ld	de,07h
+  373   02A9' FD 19             	add	iy,de
+  374                           ;demofsm.c: 143: }
+  375                           ; _n loaded to bc
+  376   02AB' DD 4E FE          	ld	c,(ix+-2)
+  377   02AE' DD 46 FF          	ld	b,(ix+-1)
+  378   02B1' 03                	inc	bc
+  379   02B2' 21 001F           	ld	hl,01Fh
+  380   02B5' CD 0000*          	call	wrelopbc
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
+
+                                                                      Page  12
+
+
+  381   02B8' FA 029A'          	jp	m,l55
+  382                           ;demofsm.c: 146: interact(&myball);
+  383   02BB' 11 0020'          	ld	de,_myball
+  384   02BE' CD 01BE'          	call	_interact
+  385                           ;demofsm.c: 151: {uint t=(*((uint *) 0xFC9E)); w
+                                hile(t==(*((uint *) 0xFC9E)));};
+  386                           ; _t allocated to bc
+  387   02C1' ED 4B FC9E        	ld	bc,(-866)
+  388   02C5'                   l58:
+  389   02C5' 2A FC9E           	ld	hl,(-866)
+  390   02C8' B7                	or	a
+  391   02C9' ED 42             	sbc	hl,bc
+  392   02CB' 28 F8             	jp	z,l58
+  393                           ;demofsm.c: 153: {asm("di");(*(port unsigned cha
+                                r *)(0x99) = ((1)));(*(port unsigned char *)(0x9
+                                9) = (0x80|(14)));asm("ei");};
+  153   02CD' F3                di ;#
+  154   02CE' 3E 01             	ld	a,01h
+  155   02D0' D3 99             	out	(099h),a
+  156   02D2' 3E 8E             	ld	a,-114
+  157   02D4' D3 99             	out	(099h),a
+  153   02D6' FB                ei ;#
+  154                           ;demofsm.c: 156: putsprt(31,myball.x,myball.y);
+  155   02D7' 3A 0022'          	ld	a,(_myball+02h)
+  156   02DA' 6F                	ld	l,a
+  157   02DB' E5                	push	hl
+  158   02DC' 3A 0020'          	ld	a,(_myball)
+  159   02DF' 4F                	ld	c,a
+  160   02E0' 1E 1F             	ld	e,01Fh
+  161   02E2' CD 00BA'          	call	_putsprt
+  162                           ;demofsm.c: 159: p_en = en;
+  163   02E5' FD 21 0000'       	ld	iy,_en
+  164                           ;demofsm.c: 160: for (n=0;n<31;n++) {
+  165   02E9' DD 36 FE 00       	ld	(ix+-2),0
+  166   02ED' DD 36 FF 00       	ld	(ix+-1),0
+  167   02F1'                   l61:
+  168                           ;demofsm.c: 161: putsprt(n,p_en->x,p_en->y);
+  169   02F1' FD 6E 02          	ld	l,(iy+2)
+  170   02F4' E5                	push	hl
+  171   02F5' FD 4E 00          	ld	c,(iy+0)
+  172   02F8' DD 5E FE          	ld	e,(ix+-2)
+  173   02FB' CD 00BA'          	call	_putsprt
+  174                           ;demofsm.c: 162: p_en++;
+  175   02FE' 11 0007           	ld	de,07h
+  176   0301' FD 19             	add	iy,de
+  177                           ;demofsm.c: 163: }
+  178                           ; _n loaded to bc
+  179   0303' DD 4E FE          	ld	c,(ix+-2)
+  180   0306' DD 46 FF          	ld	b,(ix+-1)
+  181   0309' 03                	inc	bc
+  182                           ;_n stored from bc
+  183   030A' DD 71 FE          	ld	(ix+-2),c
+  184   030D' DD 70 FF          	ld	(ix+-1),b
+  185   0310' 21 001F           	ld	hl,01Fh
+  186   0313' CD 0000*          	call	wrelopbc
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
+
+                                                                      Page  13
+
+
+  187   0316' FA 02F1'          	jp	m,l61
+  188   0319'                   l52:
+  189                           ;demofsm.c: 164: }
+  190   0319' 1E 07             	ld	e,07h
+  191   031B' CD 0000*          	call	_checkkbd
+  192   031E' CB 55             	bit	02h,l
+  193   0320' C2 0293'          	jp	nz,l53
+  194                           ;demofsm.c: 166: TextMode(40);
+  195   0323' 1E 28             	ld	e,028h
+  196   0325' CD 0000*          	call	_TextMode
+  197                           ;demofsm.c: 168: return 0;
+  198   0328' 21 0000           	ld	hl,0
+  199                           ;demofsm.c: 169: }
+  200   032B' FD E1             	pop	iy
+  201   032D' DD F9             	ld	sp,ix
+  202   032F' DD E1             	pop	ix
+  203   0331' C9                	ret	
+  204                           	global	wrelop
+  205                           	global	wrelop
+  206                           	global	wrelop
+  207                           	global	wrelop
+  208                           	global	wrelop
+  209                           ;demofsm.c: 174: void fsm(struct enemy *en) {
+  210   0332'                   _fsm:
+  211   0332' FD E5             	push	iy
+  212                           ; _en loaded to iy
+  213   0334' D5                	push	de
+  214   0335' FD E1             	pop	iy
+  215                           ;demofsm.c: 175: switch (en->st) {
+  216   0337' FD 7E 04          	ld	a,(iy+4)
+  217   033A' B7                	or	a
+  218   033B' CA 03DD'          	jp	z,l78
+  219   033E' FE 01             	cp	01h
+  220   0340' CA 03BF'          	jp	z,l75
+  221   0343' FE 02             	cp	02h
+  222   0345' CA 03F6'          	jp	z,l81
+  223   0348' FE 03             	cp	03h
+  224   034A' 28 25             	jp	z,l69
+  225   034C' FE 04             	cp	04h
+  226   034E' 20 6C             	jp	nz,l64
+  227                           ;demofsm.c: 176: case idle: {
+  228                           ;demofsm.c: 178: en->cnt --;
+  229   0350' FD 6E 05          	ld	l,(iy+5)
+  230   0353' FD 66 06          	ld	h,(iy+6)
+  231   0356' 2B                	dec	hl
+  232   0357' FD 75 05          	ld	(iy+5),l
+  233   035A' FD 74 06          	ld	(iy+6),h
+  234                           ;demofsm.c: 180: if (en->cnt == 0) {
+  235   035D' 7C                	ld	a,h
+  236   035E' FD B6 05          	or	(iy+5)
+  237   0361' 20 59             	jp	nz,l64
+  238   0363'                   L2:
+  239                           ;demofsm.c: 181: en->st = down;
+  240   0363' FD 36 04 03       	ld	(iy+4),03h
+  241                           ;demofsm.c: 182: en->cnt = 32;
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
+
+                                                                      Page  14
+
+
+  242   0367' FD 36 05 20       	ld	(iy+5),020h
+  243   036B' FD 36 06 00       	ld	(iy+6),0
+  244                           ;demofsm.c: 183: }
+  245   036F' 18 4B             	jp	l64
+  246   0371'                   l69:
+  247                           ;demofsm.c: 185: }
+  248                           ;demofsm.c: 188: en->y++;
+  249   0371' FD 34 02          	inc	(iy+2)
+  250   0374' 20 03             	jp	nz,u31
+  251   0376' FD 34 03          	inc	(iy+3)
+  252   0379'                   u31:
+  253                           ;demofsm.c: 189: en->cnt--;
+  254   0379' FD 6E 05          	ld	l,(iy+5)
+  255   037C' FD 66 06          	ld	h,(iy+6)
+  256   037F' 2B                	dec	hl
+  257   0380' FD 75 05          	ld	(iy+5),l
+  258   0383' FD 74 06          	ld	(iy+6),h
+  259                           ;demofsm.c: 191: if (en->y>=196) {
+  260   0386' 11 00C4           	ld	de,0C4h
+  261   0389' FD 6E 02          	ld	l,(iy+2)
+  262   038C' FD 66 03          	ld	h,(iy+3)
+  263   038F' CD 0000*          	call	wrelop
+  264   0392' FA 039B'          	jp	m,l70
+  265                           ;demofsm.c: 192: en->st = up;
+  266   0395' FD 36 04 02       	ld	(iy+4),02h
+  267                           ;demofsm.c: 193: }
+  268   0399' 18 21             	jp	l64
+  269   039B'                   l70:
+  270   039B' FD 7E 06          	ld	a,(iy+6)
+  271   039E' FD B6 05          	or	(iy+5)
+  272   03A1' 20 19             	jp	nz,l64
+  273                           ;demofsm.c: 195: if (en->x < 128) {
+  274   03A3' 11 0080           	ld	de,080h
+  275   03A6' FD 6E 00          	ld	l,(iy+0)
+  276   03A9' FD 66 01          	ld	h,(iy+1)
+  277   03AC' CD 0000*          	call	wrelop
+  278   03AF' F2 03B8'          	jp	p,l73
+  279                           ;demofsm.c: 196: en->st = right;
+  280   03B2' FD 36 04 00       	ld	(iy+4),0
+  281                           ;demofsm.c: 197: }
+  282   03B6' 18 04             	jp	l64
+  283   03B8'                   l73:
+  284                           ;demofsm.c: 199: en->st = left;
+  285   03B8' FD 36 04 01       	ld	(iy+4),01h
+  286                           ;demofsm.c: 240: }
+  287   03BC'                   l64:
+  288   03BC' FD E1             	pop	iy
+  289   03BE' C9                	ret	
+  290   03BF'                   l75:
+  291                           ;demofsm.c: 203: }
+  292                           ;demofsm.c: 206: if (en->x>0) {
+  293   03BF' 11 0001           	ld	de,01h
+  294   03C2' FD 6E 00          	ld	l,(iy+0)
+  295   03C5' FD 66 01          	ld	h,(iy+1)
+  296   03C8' CD 0000*          	call	wrelop
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
+
+                                                                      Page  15
+
+
+  297   03CB' FA 0363'          	jp	m,L2
+  298                           
+  299                           ;demofsm.c: 207: en->x--;
+  300   03CE' FD 6E 00          	ld	l,(iy+0)
+  301   03D1' FD 66 01          	ld	h,(iy+1)
+  302   03D4' 2B                	dec	hl
+  303   03D5' FD 75 00          	ld	(iy+0),l
+  304   03D8' FD 74 01          	ld	(iy+1),h
+  305                           ;demofsm.c: 208: }
+  306   03DB' 18 DF             	jp	l64
+  307                           ;demofsm.c: 212: }
+  308                           ;demofsm.c: 213: break;
+  309   03DD'                   l78:
+  310                           ;demofsm.c: 214: }
+  311                           ;demofsm.c: 217: if (en->x<240) {
+  312   03DD' 11 00F0           	ld	de,0F0h
+  313   03E0' FD 6E 00          	ld	l,(iy+0)
+  314   03E3' FD 66 01          	ld	h,(iy+1)
+  315   03E6' CD 0000*          	call	wrelop
+  316   03E9' F2 0363'          	jp	p,L2
+  317                           
+  318                           ;demofsm.c: 218: en->x++;
+  319   03EC' FD 34 00          	inc	(iy+0)
+  320   03EF' 20 CB             	jp	nz,l64
+  321   03F1' FD 34 01          	inc	(iy+1)
+  322                           ;demofsm.c: 219: }
+  323   03F4' 18 C6             	jp	l64
+  324                           ;demofsm.c: 223: }
+  325                           ;demofsm.c: 224: break;
+  326   03F6'                   l81:
+  327                           ;demofsm.c: 225: }
+  328                           ;demofsm.c: 228: if (en->y>-17) {
+  329   03F6' 11 FFF0           	ld	de,-16
+  330   03F9' FD 6E 02          	ld	l,(iy+2)
+  331   03FC' FD 66 03          	ld	h,(iy+3)
+  332   03FF' CD 0000*          	call	wrelop
+  333   0402' FA 0414'          	jp	m,l82
+  334                           ;demofsm.c: 229: en->y--;
+  335   0405' FD 6E 02          	ld	l,(iy+2)
+  336   0408' FD 66 03          	ld	h,(iy+3)
+  337   040B' 2B                	dec	hl
+  338   040C' FD 75 02          	ld	(iy+2),l
+  339   040F' FD 74 03          	ld	(iy+3),h
+  340                           ;demofsm.c: 230: }
+  341   0412' 18 A8             	jp	l64
+  342   0414'                   l82:
+  343                           ;demofsm.c: 232: en->st = idle;
+  344   0414' FD 36 04 04       	ld	(iy+4),04h
+  345                           ;demofsm.c: 233: en->cnt = 42;
+  346   0418' FD 36 05 2A       	ld	(iy+5),02Ah
+  347   041C' FD 36 06 00       	ld	(iy+6),0
+  348                           ;demofsm.c: 234: en->x = 120;
+  349   0420' FD 36 00 78       	ld	(iy+0),078h
+  350   0424' FD 36 01 00       	ld	(iy+1),0
+  351                           ;demofsm.c: 235: en->y = -17;
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
+
+                                                                      Page  16
+
+
+  352   0428' FD 36 02 EF       	ld	(iy+2),0EFh
+  353   042C' FD 36 03 FF       	ld	(iy+3),0FFh
+  354                           ;demofsm.c: 236: }
+  355                           ;demofsm.c: 237: break;
+  356   0430' 18 8A             	jp	l64
+  357   0000'                   	psect	strings,class=CODE
+  358   0000'                   u29:
+  359   0000' 74 65 73 74       	defb	"test.cpy",0
+        0004' 2E 63 70 79       
+        0008' 00                
+  360   0009'                   u19:
+  361   0009' 62 67 31 2E       	defb	"bg1.pl5",0
+        000D' 70 6C 35 00       
+  362   0000'                   	psect	bss,class=DATA
+  363   0000'                   _en:
+  364   0000'                   	defs	217
+  365   0432'                   	psect		text
+
+
+HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sun Oct 30 22:09:52 2016
+
+                                                                      Page  17
 
 
 
@@ -556,22 +965,27 @@ HI-TECH SOFTWARE Z80 Macro Assembler V7.80PL2         Sat Oct 29 10:02:25 2016
            (ABS) 0000#              CODE 0000               CODE 0000   
             CODE 0000               CODE 0000               CODE 0000   
             CODE 0000               DATA 0000               DATA 0000   
-            DATA 0000                 L1 01A6'                L2 01C0'  
-              L3 020C'                L4 01D5'         _TextMode 0000*  
-       _checkkbd 0000*               _en 0000'              _fsm 0171'  
-_loadvrampalette 0000*             _main 00AA'          _putsprt 0052'  
-          _rand8 0000*              _scr 0000*        _screenint 007A'  
-        _setpage 0000*         _sprtinit 0000'           _srand8 0000*  
-             bss 0000#               l10 0015'               l13 0029'  
-             l16 003D'               l21 00A1'               l26 00CA'  
-             l29 0159'               l30 0105'               l32 010B'  
-             l35 0128'               l38 0138'               l41 0193'  
-             l44 0196'               l45 01A2'               l47 01B3'  
-             l48 01C8'               l52 01DB'               l53 01E8'  
-             l55 0217'               l57 01F5'               l58 0200'  
-             l60 0206'               l63 0211'              lmod 0000*  
-     small_model 0000*           strings 0008#              text 021E#  
-             u11 005E'               u12 0060'               u19 0000'  
+            DATA 0000               DATA 0000               DATA 0000   
+            DATA 0000                 L2 0363'         _TextMode 0000*  
+           _ball 0000'         _checkjoy 0000*         _checkkbd 0000*  
+             _en 0000'              _fsm 0332'         _interact 01BE'  
+           _line 0000*      _loadvrambox 0000*  _loadvrampalette 0000*  
+           _main 0214'           _myball 0020'          _putsprt 00BA'  
+            _scr 0000*        _screenint 00E7'          _setpage 0000*  
+       _sprtinit 0000'           _srand8 0000*          _vdp_cmd 0000*  
+            amul 0000*               bss 0000#              data 0027#  
+             l10 001A'               l13 001D'               l16 002E'  
+             l19 0048'               l22 0059'               l25 006E'  
+             l28 008C'               l33 0110'               l36 0145'  
+             l39 0182'               l43 020D'               l44 01E4'  
+             l45 01F0'               l46 0201'               l49 0230'  
+             l52 0319'               l53 0293'               l55 029A'  
+             l58 02C5'               l61 02F1'               l64 03BC'  
+             l69 0371'               l70 039B'               l73 03B8'  
+             l75 03BF'               l78 03DD'               l81 03F6'  
+             l82 0414'       small_model 0000*           strings 0011#  
+            text 0432#               u19 0009'               u29 0000'  
+             u31 0379'            wrelop 0000*          wrelopbc 0000*  
 
-33 jump optimizations
+25 jump optimizations
 

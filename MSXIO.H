@@ -37,7 +37,10 @@ void	vdpcmd(struct cmd  *t);
 void 	vdp_cmd(int sx,int sy,int dx,int dy,int nx,int ny,uchar clr, uchar arg,uchar cmd);
 void 	restorepalette();
 
-char 	checkkbd (char );
+void	line (int sx,int sy,int dx,int dy,uchar clr, uchar lop);
+
+uchar 	checkkbd (char );
+uchar 	checkjoy (void);
 void 	srand8 (uint);
 uchar 	rand8 (void);
 #define srand srand8

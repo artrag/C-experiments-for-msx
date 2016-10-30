@@ -91,7 +91,8 @@ void loadvrampalette(char namefile[]) {
 // do not use for odd nx
 // buggy: WIP
 //
-/*
+
+
 void loadvrambox(char namefile[],int dx,int dy) {
     FILE * pFile;
 	
@@ -102,7 +103,7 @@ void loadvrambox(char namefile[],int dx,int dy) {
 		exit(1);
 	}
 	else 	{
-		uint 	nx,ny;
+		int 	nx,ny;
 		uint 	m;		// needed to load up to 64Kbyte
 		uchar	buffer[5];	
 	
@@ -110,26 +111,27 @@ void loadvrambox(char namefile[],int dx,int dy) {
 		fread(buffer,1,5,pFile);
 
 		// Word: nx,ny
-		
+
 		// compute the number of bytes to be loaded
 		nx = (buffer[0]+buffer[1]*256);
 		ny = (buffer[2]+buffer[3]*256); 
 
+		m  = nx / 2 * ny ;
+
 		vdp_cmd(0,0,dx,dy,nx,ny,buffer[4], 0,HMMC);
-		
-		m  = nx / 2 * ny  - 2;
-		
+
+		m--;
+
 		setvdpreg(17,44+128);
 		
 		// load and move to vram
-		do {  
+		while (m > 0) {				// end if I read the last byte
 			outp(0x9B,fgetc(pFile));
 			m--;
 		} 
-		while (m > 0);		// end if I read the last bulk of data 
 		
 		fclose (pFile);
 	}
 	return;
 }
-*/
+

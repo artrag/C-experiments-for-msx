@@ -13,172 +13,178 @@ Machine type is Z80
 
 		Name          Link     Load   Length Selector Space Scale
 C:\HTC\LIB\rtz80-c.obj
-		bss           2E7C     2E7C        2       0     0
+		bss           32D4     32D4        2       0     0
 		text           100      100       95       0     0
 		vectors          0        0      100       0     0
-		const         2B4B     2B4B       1C       0     0
-demofsm.obj     bss           2E7E     2E7E       80       0     0
-		text           195      195      21E       0     0
-		strings       2ADC     2ADC        8       0     0
-vdpio.obj       bss           2EFE     2EFE        2       0     0
-		text           3B3      3B3      133       0     0
-dskio.obj       bss           2F00     2F00       80       0     0
-		text           4E6      4E6      197       0     0
-		strings       2AE4     2AE4       19       0     0
-bmove.obj       text           67D      67D        C       0     0
-sc5.obj         text           689      689       55       0     0
+		const         2F7C     2F7C       1C       0     0
+demofsm.obj     bss           32D6     32D6       D9       0     0
+		data          30B8     30B8       27       0     0
+		text           195      195      432       0     0
+		strings       2F04     2F04       11       0     0
+vdpio.obj       bss           33AF     33AF        2       0     0
+		text           5C7      5C7      23F       0     0
+dskio.obj       bss           33B1     33B1       80       0     0
+		text           806      806      287       0     0
+		strings       2F15     2F15       19       0     0
+bmove.obj       text           A8D      A8D        C       0     0
+sc5.obj         text           A99      A99       55       0     0
 
 C:\HTC\LIB\z80-cc.lib
-aslsub.obj      text           6DE      6DE        9       0     0
-printf.obj      text           6E7      6E7       2D       0     0
-fopen.obj       text           714      714       5D       0     0
-start1.obj      bss           2F80     2F80        2       0     0
-		text           771      771        3       0     0
-start2.obj      text           774      774       52       0     0
-		const         2B67     2B67        1       0     0
-doprnt.obj      data          2C87     2C87       35       0     0
-		text           7C6      7C6      87C       0     0
-		strings       2AFD     2AFD       4E       0     0
-		const         2B68     2B68       1E       0     0
-fputc.obj       text          1042     1042       CD       0     0
-flsbuf.obj      text          110F     110F       F8       0     0
-isatty.obj      text          1207     1207       3D       0     0
-freopen.obj     text          1244     1244      181       0     0
-creat.obj       text          13C5     13C5       83       0     0
-open.obj        text          1448     1448       BF       0     0
-unlink.obj      text          1507     1507       60       0     0
-getfcb.obj      data          2CBC     2CBC       10       0     0
-		text          1567     1567      294       0     0
-toupper.obj     text          17FB     17FB       16       0     0
-atoi.obj        text          1811     1811       6F       0     0
-ctype_.obj      const         2B86     2B86      101       0     0
-fseek.obj       text          1880     1880      2AF       0     0
-seek.obj        text          1B2F     1B2F      193       0     0
-lrelop.obj      text          1CC2     1CC2       25       0     0
-lsub.obj        text          1CE7     1CE7       10       0     0
-allsh.obj       text          1CF7     1CF7       11       0     0
-fread.obj       text          1D08     1D08      16D       0     0
-idiv.obj        text          1E75     1E75       6B       0     0
-fgetc.obj       text          1EE0     1EE0       B5       0     0
-filbuf.obj      text          1F95     1F95      120       0     0
-read.obj        text          20B5     20B5      278       0     0
-stdclean.obj    bss           2F82     2F82      402       0     0
-		data          2CCC     2CCC       60       0     0
-		text          232D     232D       34       0     0
-fclose.obj      text          2361     2361       62       0     0
-buf.obj         bss           3384     3384        2       0     0
-		text          23C3     23C3       47       0     0
-sbrk.obj        bss           3386     3386        2       0     0
-		text          240A     240A       66       0     0
-fflush.obj      bss           3388     3388        1       0     0
-		text          2470     2470       7D       0     0
-write.obj       text          24ED     24ED      22C       0     0
-signal.obj      bss           3389     3389        2       0     0
-		text          2719     2719       64       0     0
-cleanup.obj     data          2D2C     2D2C      150       0     0
-		text          277D     277D       65       0     0
-exit.obj        text          27E2     27E2       20       0     0
-asladd.obj      text          2802     2802        9       0     0
-ladd.obj        text          280B     280B        E       0     0
-iregset.obj     text          2819     2819       26       0     0
-ldiv.obj        text          283F     283F      120       0     0
+aslsub.obj      text           AEE      AEE        9       0     0
+printf.obj      text           AF7      AF7       2D       0     0
+fopen.obj       text           B24      B24       5D       0     0
+start1.obj      bss           3431     3431        2       0     0
+		text           B81      B81        3       0     0
+start2.obj      text           B84      B84       52       0     0
+		const         2F98     2F98        1       0     0
+doprnt.obj      data          30DF     30DF       35       0     0
+		text           BD6      BD6      87C       0     0
+		strings       2F2E     2F2E       4E       0     0
+		const         2F99     2F99       1E       0     0
+fputc.obj       text          1452     1452       CD       0     0
+flsbuf.obj      text          151F     151F       F8       0     0
+isatty.obj      text          1617     1617       3D       0     0
+freopen.obj     text          1654     1654      181       0     0
+creat.obj       text          17D5     17D5       83       0     0
+open.obj        text          1858     1858       BF       0     0
+unlink.obj      text          1917     1917       60       0     0
+getfcb.obj      data          3114     3114       10       0     0
+		text          1977     1977      294       0     0
+toupper.obj     text          1C0B     1C0B       16       0     0
+atoi.obj        text          1C21     1C21       6F       0     0
+ctype_.obj      const         2FB7     2FB7      101       0     0
+fseek.obj       text          1C90     1C90      2AF       0     0
+seek.obj        text          1F3F     1F3F      193       0     0
+lrelop.obj      text          20D2     20D2       25       0     0
+lsub.obj        text          20F7     20F7       10       0     0
+allsh.obj       text          2107     2107       11       0     0
+fread.obj       text          2118     2118      16D       0     0
+idiv.obj        text          2285     2285       6B       0     0
+fgetc.obj       text          22F0     22F0       B5       0     0
+filbuf.obj      text          23A5     23A5      120       0     0
+read.obj        text          24C5     24C5      278       0     0
+stdclean.obj    bss           3433     3433      402       0     0
+		data          3124     3124       60       0     0
+		text          273D     273D       34       0     0
+fclose.obj      text          2771     2771       62       0     0
+buf.obj         bss           3835     3835        2       0     0
+		text          27D3     27D3       47       0     0
+sbrk.obj        bss           3837     3837        2       0     0
+		text          281A     281A       66       0     0
+fflush.obj      bss           3839     3839        1       0     0
+		text          2880     2880       7D       0     0
+write.obj       text          28FD     28FD      22C       0     0
+signal.obj      bss           383A     383A        2       0     0
+		text          2B29     2B29       64       0     0
+cleanup.obj     data          3184     3184      150       0     0
+		text          2B8D     2B8D       65       0     0
+exit.obj        text          2BF2     2BF2       20       0     0
+asladd.obj      text          2C12     2C12        9       0     0
+ladd.obj        text          2C1B     2C1B        E       0     0
+iregset.obj     text          2C29     2C29       26       0     0
+ldiv.obj        text          2C4F     2C4F      120       0     0
 fastb.obj       
-close.obj       text          295F     295F       88       0     0
-bdos.obj        text          29E7     29E7       1E       0     0
-bdoshl.obj      text          2A05     2A05       16       0     0
-getuid.obj      text          2A1B     2A1B       21       0     0
-csv.obj         text          2A3C     2A3C       28       0     0
-imul.obj        text          2A64     2A64       1F       0     0
-alrsh.obj       text          2A83     2A83       14       0     0
-wrelop.obj      text          2A97     2A97        F       0     0
-_exit.obj       text          2AA6     2AA6        B       0     0
-pshlng.obj      text          2AB1     2AB1       13       0     0
-wrelop2.obj     text          2AC4     2AC4       18       0     0
+close.obj       text          2D6F     2D6F       88       0     0
+bdos.obj        text          2DF7     2DF7       1E       0     0
+bdoshl.obj      text          2E15     2E15       16       0     0
+getuid.obj      text          2E2B     2E2B       21       0     0
+csv.obj         text          2E4C     2E4C       28       0     0
+imul.obj        text          2E74     2E74       1F       0     0
+alrsh.obj       text          2E93     2E93       14       0     0
+wrelop.obj      text          2EA7     2EA7        F       0     0
+_exit.obj       text          2EB6     2EB6        B       0     0
+pshlng.obj      text          2EC1     2EC1       13       0     0
+wrelop2.obj     text          2ED4     2ED4       18       0     0
+wrelop3.obj     text          2EEC     2EEC       18       0     0
 
 TOTAL		Name          Link     Load   Length
 	CLASS	CODE     
-		text           100      100     29DC
+		text           100      100     2E04
 		vectors          0        0      100
-		strings       2ADC     2ADC       6F
-		const         2B4B     2B4B      13C
+		strings       2F04     2F04       78
+		const         2F7C     2F7C      13C
 
 	CLASS	DATA     
-		bss           2E7C     2E7C      50F
-		data          2C87     2C87      1F5
+		bss           32D4     32D4      568
+		data          30B8     30B8      21C
 
 
 
 SEGMENTS	Name		Load	Length	 Top	Selector    Space Class
 
-		vectors         000000	00338B	00338B	       0       0  CODE    
+		vectors         000000	00383C	00383C	       0       0  CODE    
 
 
                                   Symbol Table
 
-_TextMode          text    03B3  __Hbss             bss     338B
-__Hconst           const   2C87  __Hdata            data    2E7C
-__Hheap            heap    338B  __Him2vecs         im2vecs 2C87
-__Hlowtext         lowtext 0100  __Hnvram           nvram   338B
-__Hstrings         strings 2B4B  __Htext            text    2ADC
-__Hvectors         vectors 0100  __Lbss             bss     2E7C
-__Lconst           const   2B4B  __Ldata            data    2C87
-__Lheap            heap    338B  __Lim2vecs         im2vecs 2C87
-__Llowtext         lowtext 0100  __Lnvram           nvram   338B
-__Lstrings         strings 2ADC  __Ltext            text    0100
-__Lvectors         vectors 0000  __argc_            bss     2F80
-__atexitptr        bss     2F82  __bufallo          text    23C3
-__buffree          text    23F5  __cleanup          text    232D
-__cpm_clean        text    277D  __ctype_           const   2B86
-__exit             text    2AA6  __fcb              data    2D2C
-__filbuf           text    1F95  __flsbuf           text    110F
-__fsize            text    1B2F  __getargs          text    0774
-__iob              data    2CCC  __outdone          bss     3388
-__putrno           text    27A1  __sibuf            bss     2F84
-__sigchk           text    2734  __sobuf            bss     3184
-__vdpReg           (abs)   F3DF  _atoi              text    1811
-_bdos              text    29E7  _bdoshl            text    2A05
-_bmove             text    067D  _brk               text    240A
-_checkkbd          text    04A4  _close             text    295F
-_creat             text    13C5  _en                bss     2E7E
-_errno             bss     2E7C  _exit              text    27E2
-_fc_parse          text    15BB  _fclose            text    2361
-_fflush            text    2470  _fgetc             text    1EE0
-_fopen             text    0714  _fputc             text    1042
-_fread             text    1D08  _freopen           text    1244
-_fseek             text    1971  _fsm               text    0306
-_ftell             text    1AA5  _getfcb            text    1581
-_getuid            text    2A1B  _isatty            text    1207
-_loadvramdata      text    04E6  _loadvrampalette   text    05DE
-_lseek             text    1C0F  _main              text    023F
-_open              text    1448  _otir98h           text    04C2
-_otir9Bh           text    04D3  _printf            text    06E7
-_putfcb            text    1762  _putsprt           text    01E7
-_rand8             text    04B4  _read              text    20B5
-_restorepalette    text    0473  _sbrk              text    2410
-_scr               text    03CE  _screenint         text    020F
-_setfcb            text    1769  _setpage           text    0689
-_setuid            text    2A2E  _signal            text    2719
-_sprtinit          text    0195  _srand8            text    04AF
-_toupper           text    17FB  _unlink            text    1507
-_vdp_cmd           text    03EF  _vdpcmd            text    069A
-_vfprintf          text    07C6  _write             text    24ED
-adiv               text    1E84  aladd              text    280B
-aldiv              text    288B  allsh              text    1CF7
-almod              text    28B2  alrsh              text    2A83
-alsub              text    1CE7  amod               text    1E75
-amul               text    2A64  arelop             text    1CC2
-asaladd            text    2802  asaldiv            text    2876
-asalmod            text    28C4  asalsub            text    06DE
-aslladd            text    2802  aslldiv            text    28AA
-asllmod            text    28D7  asllsub            text    06DE
-cret               text    2A48  csv                text    2A3C
-float_or_long_used (abs)   0001  indir              text    2A4F
-iregset            text    2819  iregstore          text    2833
-ldiv               text    1E7F  lladd              text    280B
-lldiv              text    289E  lllsh              text    1CF7
-llmod              text    28CC  llsub              text    1CE7
-lmod               text    1E7A  lmul               text    2A64
-lrelop             text    1CC2  ncsv               text    2A50
-push_long          text    2AB1  small_model        (abs)   0001
-start              text    0100  startup            text    0771
-wrelop             text    2A97  wrelopde           text    2AC4
+_TextMode          text    05C7  __Hbss             bss     383C
+__Hconst           const   30B8  __Hdata            data    32D4
+__Hheap            heap    383C  __Him2vecs         im2vecs 30B8
+__Hlowtext         lowtext 0100  __Hnvram           nvram   383C
+__Hstrings         strings 2F7C  __Htext            text    2F04
+__Hvectors         vectors 0100  __Lbss             bss     32D4
+__Lconst           const   2F7C  __Ldata            data    30B8
+__Lheap            heap    383C  __Lim2vecs         im2vecs 30B8
+__Llowtext         lowtext 0100  __Lnvram           nvram   383C
+__Lstrings         strings 2F04  __Ltext            text    0100
+__Lvectors         vectors 0000  __argc_            bss     3431
+__atexitptr        bss     3433  __bufallo          text    27D3
+__buffree          text    2805  __cleanup          text    273D
+__cpm_clean        text    2B8D  __ctype_           const   2FB7
+__exit             text    2EB6  __fcb              data    3184
+__filbuf           text    23A5  __flsbuf           text    151F
+__fsize            text    1F3F  __getargs          text    0B84
+__iob              data    3124  __outdone          bss     3839
+__putrno           text    2BB1  __sibuf            bss     3435
+__sigchk           text    2B44  __sobuf            bss     3635
+__vdpReg           (abs)   F3DF  _atoi              text    1C21
+_ball              data    30B8  _bdos              text    2DF7
+_bdoshl            text    2E15  _bmove             text    0A8D
+_brk               text    281A  _checkjoy          text    0788
+_checkkbd          text    077D  _close             text    2D6F
+_creat             text    17D5  _en                bss     32D6
+_errno             bss     32D4  _exit              text    2BF2
+_fc_parse          text    19CB  _fclose            text    2771
+_fflush            text    2880  _fgetc             text    22F0
+_fopen             text    0B24  _fputc             text    1452
+_fread             text    2118  _freopen           text    1654
+_fseek             text    1D81  _fsm               text    04C7
+_ftell             text    1EB5  _getfcb            text    1991
+_getuid            text    2E2B  _interact          text    0353
+_isatty            text    1617  _line              text    0687
+_loadvrambox       text    099D  _loadvramdata      text    0806
+_loadvrampalette   text    08FE  _lseek             text    201F
+_main              text    03A9  _myball            data    30D8
+_open              text    1858  _otir98h           text    07E2
+_otir9Bh           text    07F3  _printf            text    0AF7
+_putfcb            text    1B72  _putsprt           text    024F
+_rand8             text    07D4  _read              text    24C5
+_restorepalette    text    074C  _sbrk              text    2820
+_scr               text    05E2  _screenint         text    027C
+_setfcb            text    1B79  _setpage           text    0A99
+_setuid            text    2E3E  _signal            text    2B29
+_sprtinit          text    0195  _srand8            text    07CF
+_toupper           text    1C0B  _unlink            text    1917
+_vdp_cmd           text    0603  _vdpcmd            text    0AAA
+_vfprintf          text    0BD6  _write             text    28FD
+adiv               text    2294  aladd              text    2C1B
+aldiv              text    2C9B  allsh              text    2107
+almod              text    2CC2  alrsh              text    2E93
+alsub              text    20F7  amod               text    2285
+amul               text    2E74  arelop             text    20D2
+asaladd            text    2C12  asaldiv            text    2C86
+asalmod            text    2CD4  asalsub            text    0AEE
+aslladd            text    2C12  aslldiv            text    2CBA
+asllmod            text    2CE7  asllsub            text    0AEE
+cret               text    2E58  csv                text    2E4C
+float_or_long_used (abs)   0001  indir              text    2E5F
+iregset            text    2C29  iregstore          text    2C43
+ldiv               text    228F  lladd              text    2C1B
+lldiv              text    2CAE  lllsh              text    2107
+llmod              text    2CDC  llsub              text    20F7
+lmod               text    228A  lmul               text    2E74
+lrelop             text    20D2  ncsv               text    2E60
+push_long          text    2EC1  small_model        (abs)   0001
+start              text    0100  startup            text    0B81
+wrelop             text    2EA7  wrelopbc           text    2EEC
+wrelopde           text    2ED4  
